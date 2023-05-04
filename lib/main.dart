@@ -5,6 +5,9 @@ import 'package:country_codes/country_codes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:fluid_dating_app/View/HomeScreenTab.dart';
+import 'package:fluid_dating_app/View/registration_screens/SignUpOrLoginScreen.dart';
+import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration1Screen.dart';
 import 'package:fluid_dating_app/View/splashscreen.dart';
 import 'package:fluid_dating_app/network/my_http_overrides.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
@@ -21,6 +24,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:fluid_dating_app/network/http_methods.dart';
 
+import 'View/home_screen_tabs/profile_editing_screens/account_settings_screen/AccountSettingsScreen.dart';
 import 'helper/themes.dart';
 // iOS only: Localized labels language setting is equal to CFBundleDevelopmentRegion value (Info.plist) of the iOS project
 // Set iOSLocalizedLabels=false if you always want english labels whatever is the CFBundleDevelopmentRegion value.
@@ -318,15 +322,10 @@ class MyApp extends StatelessWidget {
 
   MyApp({Key? key}) : super(key: key);
 
-
   /*ThemeData getCurrentTheme(){
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.get(key);
-
     return Themes().wingsLightTheme.copyWith(
-
-
       textTheme: GoogleFonts.poppinsTextTheme(),
     );
   }*/
@@ -337,7 +336,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       navigatorKey: _mainNavigatorKey,
       debugShowCheckedModeBanner: false,
-      title: 'Wings',
+      title: 'Fluid',
       theme:Themes().fluidsLightTheme.copyWith(
         textTheme: GoogleFonts.ralewayTextTheme(),
       ),
@@ -345,7 +344,7 @@ class MyApp extends StatelessWidget {
       //home:ProfilePage(profileName: "shraf6",),
       //home: MyWingsProfileForOtherUserScreen(profileName: 'ashrafking',),
       //initialRoute: '/',
-      home:SplashScreen(),
+      home:CompleteRegistration1Screen(),
       //home:ChatScreen(),
     );
   }
