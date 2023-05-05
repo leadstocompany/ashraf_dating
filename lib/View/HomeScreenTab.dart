@@ -5,6 +5,7 @@ import 'package:fluid_dating_app/View/home_screen_tabs/ProfileScreen.dart';
 import 'package:fluid_dating_app/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class HomeScreenTab extends StatefulWidget {
@@ -37,7 +38,7 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
     return WillPopScope(
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: Colors.white,
+
             body: pages[pageIndex],
             bottomNavigationBar: buildMyNavBar(context),
           ),
@@ -61,7 +62,7 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
       height: 60,
       padding: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.isDarkMode ?Colors.black : Colors.white54,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
         boxShadow: <BoxShadow>[
           BoxShadow(

@@ -34,9 +34,10 @@ class Themes{
     )
   );
 
-  ThemeData fluidBlackOnWhiteTheme = ThemeData(
+  ThemeData fluidBlackOnWhiteTheme = ThemeData.dark().copyWith(
     primaryColor: Colors.black,
-
+    backgroundColor: Colors.black,
+    scaffoldBackgroundColor: Colors.black,
     textTheme: GoogleFonts.ralewayTextTheme().apply(
       bodyColor: Colors.white,displayColor: Colors.white
     ),

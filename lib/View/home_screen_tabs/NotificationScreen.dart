@@ -10,9 +10,11 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-          child:Text("Notification Screen")
+    return Scaffold(
+      body: Center(
+        child: Container(
+            child:Text("Notification Screen")
+        ),
       ),
     );
   }

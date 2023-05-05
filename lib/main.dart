@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:fluid_dating_app/View/HomeScreenTab.dart';
+import 'package:fluid_dating_app/View/home_screen_tabs/ChatScreen.dart';
 import 'package:fluid_dating_app/View/registration_screens/SignUpOrLoginScreen.dart';
 import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration1Screen.dart';
 import 'package:fluid_dating_app/View/splashscreen.dart';
@@ -344,11 +345,11 @@ class MyApp extends StatelessWidget {
       theme:Themes().fluidsLightTheme.copyWith(
         textTheme: GoogleFonts.ralewayTextTheme(),
       ),
-      darkTheme: Themes().fluidsLightTheme,
+      darkTheme: Themes().fluidBlackOnWhiteTheme,
       //home:ProfilePage(profileName: "shraf6",),
       //home: MyWingsProfileForOtherUserScreen(profileName: 'ashrafking',),
       //initialRoute: '/',
-      home:HomeScreenTab(),
+      home:SplashScreen(),
       //home:ChatScreen(),
     );
   }

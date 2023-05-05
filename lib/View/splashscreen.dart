@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:fluid_dating_app/View/HomeScreenTab.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,10 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: Duration(seconds: 2),
     )..addStatusListener((AnimationStatus status) {
       if (status == AnimationStatus.completed)
+        sleep(Duration(seconds:2));
         SchedulerBinding.instance.addPostFrameCallback((_){
           Get.to(HomeScreenTab());
         });
