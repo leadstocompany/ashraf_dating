@@ -16,7 +16,7 @@ class HomeScreenTab extends StatefulWidget {
 
 class _HomeScreenTabState extends State<HomeScreenTab> {
 
-  int pageIndex = 0;
+  int pageIndex = 1;
 
   final pages = [
     ProfileScreen(),

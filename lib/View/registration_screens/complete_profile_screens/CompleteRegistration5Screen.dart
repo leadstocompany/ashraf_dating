@@ -1,4 +1,5 @@
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
+import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration6Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +62,7 @@ class _CompleteRegistration5ScreenState extends State<CompleteRegistration5Scree
             ReusableWidgets().FluidButton("NEXT", (){
 
 
-              Get.to(CompleteRegistration5Screen());
+              Get.to(CompleteRegistration6Screen());
 
 
             }, context),

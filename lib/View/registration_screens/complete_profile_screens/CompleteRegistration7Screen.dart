@@ -15,8 +15,8 @@ class _CompleteRegistration7ScreenState extends State<CompleteRegistration7Scree
 
   TextEditingController emailTextEditingController = TextEditingController();
 
-  var professionList = <String>['Actress', 'Singer', 'Director', 'Producer'];
-  String? profession = 'Actress';
+
+  bool isVerified = false;
 
 
   @override
@@ -25,52 +25,84 @@ class _CompleteRegistration7ScreenState extends State<CompleteRegistration7Scree
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 36),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ReusableWidgets().FluidHeaderText("Create your Profile",context),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: size.width * 0.06, top: size.width * 0.04),
-              child: DropdownButton<String>(
-                value: profession,
-                style: GoogleFonts.poppins(
-                    textStyle: Theme.of(context).textTheme.headline6,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black),
-                underline: Container(
-                    height: 1.0,
-                   decoration: const BoxDecoration(
-                       border: Border(
-                             bottom: BorderSide(
-                                color: Colors.transparent, width: 0.0))),
-                   ),
-                icon: Icon(Icons.keyboard_arrow_down),
-                items: professionList.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (_) {},
-              ),
+      body: isVerified?VerificationCompleteUI():VerficationFailedUI(),
+    );
+  }
+
+  Widget VerficationFailedUI() {
+    var size = MediaQuery.of(context).size;
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 36),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ReusableWidgets().FluidBoldHeaderText("We’re sorry to say, but you have not passed our profile verification process.",context,true),
+          Container(
+            height: size.height*0.4,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("reverify_graphics.png")
+                )
             ),
-            ReusableWidgets().FluidButton("NEXT", (){
+          ),
 
-
-              Get.to(CompleteRegistration7Screen());
-
-
-            }, context),
-
-          ],
-        ),
+          SizedBox(height: size.height*0.07,),
+          ReusableWidgets().FluidButton("RE-VERIFY", (){
+            print(isVerified);
+            print("aslaksal;");
+            setState(() {
+              isVerified =! isVerified;
+            });
+            print("aslaksal;");
+            print(isVerified);
+          }, context),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width*0.08),
+            child: Text("etc etc follow community guidelines on ..."
+                "matches can report each other for inappropriate behaviour, "
+                "any such complain will be investigated and may result in banning"
+                " your account etc etc ",textAlign: TextAlign.center,),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget VerificationCompleteUI() {
+    var size = MediaQuery.of(context).size;
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 36),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ReusableWidgets().FluidBoldHeaderText("Success!",context,true),
+          Text("We are stoked to have you join our community!"),
+          Container(
+
+            height: size.height*0.4,
+            child: Center(child: Text("Graphics To be Added Here")),
+          ),
+          ReusableWidgets().FluidBoldHeaderText("You're Verified",context,true),
+          ReusableWidgets().FluidParagraphText("Let's get you in!",context),
+          SizedBox(height: size.height*0.07,),
+          ReusableWidgets().FluidButton("NEXT", (){
 
 
+            Get.to(CompleteRegistration7Screen());
+
+
+          }, context),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width*0.08),
+            child: Text("etc etc follow community guidelines on ..."
+                "matches can report each other for inappropriate behaviour, "
+                "any such complain will be investigated and may result in banning"
+                " your account etc etc ",textAlign: TextAlign.center,),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -24,7 +24,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:fluid_dating_app/network/http_methods.dart';
 
+import 'View/MessageScreen.dart';
 import 'View/home_screen_tabs/profile_editing_screens/account_settings_screen/AccountSettingsScreen.dart';
+import 'View/registration_screens/complete_profile_screens/CompleteRegistration4Screen.dart';
+import 'View/registration_screens/complete_profile_screens/CompleteRegistration6Screen.dart';
+import 'View/registration_screens/complete_profile_screens/CompleteRegistration7Screen.dart';
 import 'helper/themes.dart';
 // iOS only: Localized labels language setting is equal to CFBundleDevelopmentRegion value (Info.plist) of the iOS project
 // Set iOSLocalizedLabels=false if you always want english labels whatever is the CFBundleDevelopmentRegion value.
@@ -344,7 +348,7 @@ class MyApp extends StatelessWidget {
       //home:ProfilePage(profileName: "shraf6",),
       //home: MyWingsProfileForOtherUserScreen(profileName: 'ashrafking',),
       //initialRoute: '/',
-      home:CompleteRegistration1Screen(),
+      home:HomeScreenTab(),
       //home:ChatScreen(),
     );
   }

@@ -208,6 +208,53 @@ class ReusableWidgets{
     return Text(s,style: Theme.of(context).textTheme.headlineLarge,);
   }
 
+  FluidNoteText(String s,BuildContext context) {
+    return Text(s,style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),);
+  }
 
+  FluidParagraphText(String s,BuildContext context) {
+    return Text(s,style: Theme.of(context).textTheme.bodyMedium,);
+  }
+
+  FluidBoldHeaderText(String s,BuildContext context,bool isAlignedCenter) {
+    return Text(s,style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+      fontWeight: FontWeight.w900
+    ),textAlign:isAlignedCenter? TextAlign.center:TextAlign.left,);
+  }
+  FluidBoldSubHeaderText(String s,BuildContext context,bool isAlignedCenter) {
+    return Text(s,style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+        fontWeight: FontWeight.w900
+    ),textAlign:isAlignedCenter? TextAlign.center:TextAlign.left,);
+  }
+
+  Widget FluidButtonColor(
+      String label,
+      Function() onTap,
+      Color backgroundColor,
+      BuildContext context,
+      Widget? icon,
+      ){
+    var size = MediaQuery.of(context).size;
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical:size.height*0.02 ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: backgroundColor,
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(label,style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+              icon!=null?SizedBox(width: 20,):Container(),
+              icon??Container(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
 }

@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 class Themes{
 
   ThemeData fluidsLightTheme = ThemeData(
-    primaryColor: Color(0xffA862EA),
+    primaryColor: Color(0xff873F9F),
     scaffoldBackgroundColor: Colors.white,
-    appBarTheme: AppBarTheme(backgroundColor: Color(0xffA862EA),foregroundColor:Colors.white),
+    appBarTheme: AppBarTheme(backgroundColor: Color(0xff873F9F),foregroundColor:Colors.white),
       textTheme: GoogleFonts.ralewayTextTheme().copyWith().apply(displayColor: Colors.black),
   );
 
