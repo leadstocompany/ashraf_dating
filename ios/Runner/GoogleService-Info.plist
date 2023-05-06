@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>904734656301-3p85or5mhglq1mpj1693cj690kgm6tqi.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.904734656301-3p85or5mhglq1mpj1693cj690kgm6tqi</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>904734656301-87crre7af0gvq4uogl81qisd1c6ijq8m.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCE-cNaQdeYQAihLeWGNOVY4l4qH5WY5R8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>904734656301</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.fluidDatingApp</string>
+	<key>PROJECT_ID</key>
+	<string>fluid-60f3a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fluid-60f3a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:904734656301:ios:b4ca37661f4f445fb635a4</string>
+</dict>
+</plist>

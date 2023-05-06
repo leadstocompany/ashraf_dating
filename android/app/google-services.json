@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "904734656301",
+    "project_id": "fluid-60f3a",
+    "storage_bucket": "fluid-60f3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904734656301:android:2c4f79b15f4f0c70b635a4",
+        "android_client_info": {
+          "package_name": "com.example.fluid_dating_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904734656301-87crre7af0gvq4uogl81qisd1c6ijq8m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fluid_dating_app",
+            "certificate_hash": "a42b3870e92c4bdc9612842c6a5fe05e2f658de6"
+          }
+        },
+        {
+          "client_id": "904734656301-rqth10thg55jssq0g4mu3dp1uavfspic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAo8pMfgxO8LujhCBJuchexows094muvFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904734656301-rqth10thg55jssq0g4mu3dp1uavfspic.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "904734656301-3p85or5mhglq1mpj1693cj690kgm6tqi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fluidDatingApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
