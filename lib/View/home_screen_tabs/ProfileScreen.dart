@@ -1,5 +1,6 @@
 import 'package:fluid_dating_app/Helper/AppServices.dart';
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
+import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/EditProfileScreen.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/AccountSettingsScreen.dart';
 import 'package:fluid_dating_app/globals.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,14 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+
+  Function() notifyParent;
+
+  ProfileScreen({Key? key, required this.notifyParent}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
+
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -47,6 +52,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               children: [
                 ListTile(
+                  onTap:(){
+                    Get.to(EditProfileScreen(profileName: "ashraf",));
+                  },
                   leading: Icon(Icons.edit),
                   title: Text("Edit Profile"),
                   trailing: Icon(Icons.arrow_forward_ios_rounded),
@@ -62,13 +70,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                   leading: Icon(Icons.settings),
                   title: Text("Account settings"),
-                  trailing: Icon(Icons.edit),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
                 Divider(),
                 ListTile(
                   leading: Icon(Icons.person_add_alt_1_rounded),
                   title: Text("Invite"),
-                  trailing: Icon(Icons.edit),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
                 Divider(),
                 PushNotificationToggle(),
@@ -99,10 +107,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       inactiveThumbColor:Colors.white,
       inactiveTrackColor:Colors.black.withOpacity(0.4),*/
       onChanged: (bool value) {
-        setState(() {
-          enableDarkMode = value;
-          AppServices().ChangeTheme(enableDarkMode);
-        });
+
+        enableDarkMode = value;
+        AppServices().ChangeTheme(enableDarkMode);
+       // setState(() {});
+        widget.notifyParent();
       },
     );
   }

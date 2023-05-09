@@ -36,86 +36,91 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        /*appBar: AppBar(
-          title : ValueListenableBuilder(
-            valueListenable: appValueNotifier.valueNotifier,
-            builder: (context, value, child) {
-              return Text("@"+value.toString(),style: GoogleFonts.raleway(
-                  textStyle: Theme.of(context).textTheme.headline6,
-                  color: Theme.of(context).primaryColor));
-            },
-          ),
+    return SafeArea(
+      child: Scaffold(
+          /*appBar: AppBar(
+            title : ValueListenableBuilder(
+              valueListenable: appValueNotifier.valueNotifier,
+              builder: (context, value, child) {
+                return Text("@"+value.toString(),style: GoogleFonts.raleway(
+                    textStyle: Theme.of(context).textTheme.headline6,
+                    color: Theme.of(context).primaryColor));
+              },
+            ),
 
-          actions: [
-            unswipeButton(controller,context),
-          ],
+            actions: [
+              unswipeButton(controller,context),
+            ],
 
-          iconTheme: IconThemeData(
-            color: Theme.of(context).primaryColor, //change your color here
+            iconTheme: IconThemeData(
+              color: Theme.of(context).primaryColor, //change your color here
+            ),
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+          ),*/
+          body:Container(
+            padding: EdgeInsets.only(top: 20),
+            child: AppinioSwiper(
+              unlimitedUnswipe: true,
+              controller: controller,
+              unswipe: _unswipe,
+              cardsCount: cards.length,
+              cardsBuilder: (BuildContext context,int index){
+                return cards[index];
+              },
+              onSwipe: _swipe,
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+                top: 0,
+                bottom: 0,
+              ),
+            ),
           ),
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-        ),*/
-        body:AppinioSwiper(
-          unlimitedUnswipe: true,
-          controller: controller,
-          unswipe: _unswipe,
-          cardsCount: cards.length,
-          cardsBuilder: (BuildContext context,int index){
-            return cards[index];
-          },
-          onSwipe: _swipe,
-          padding: const EdgeInsets.only(
-            left: 10,
-            right: 10,
-            top: 0,
-            bottom: 0,
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 60.0,
-                  width: 60.0,
-                  child: FittedBox(
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.white,
-                      onPressed: () => controller.swipeLeft(),
-                      child: Icon(Icons.heart_broken,size:40,color: Theme.of(context).primaryColor,),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 60.0,
+                    width: 60.0,
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        onPressed: () => controller.swipeLeft(),
+                        child: Icon(Icons.heart_broken,size:40,color: Theme.of(context).primaryColor,),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  height: 60.0,
-                  width: 60.0,
-                  child: FittedBox(
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.white,
-                      onPressed: () => controller.swipeRight(),
-                      child: Icon(Icons.star,size: 40,color:Color(0xffFFADED),),
+                  Container(
+                    height: 60.0,
+                    width: 60.0,
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        onPressed: () => controller.swipeRight(),
+                        child: Icon(Icons.star,size: 40,color:Color(0xffFFADED),),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  height: 75.0,
-                  width: 75.0,
-                  child: FittedBox(
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.white,
-                      onPressed: () => controller.swipeRight(),
-                      child: Icon(Icons.favorite,size: 40,color: Colors.red,)
+                  Container(
+                    height: 75.0,
+                    width: 75.0,
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        onPressed: () => controller.swipeRight(),
+                        child: Icon(Icons.favorite,size: 40,color: Colors.red,)
+                      ),
                     ),
                   ),
-                ),
-              ]
-          ),
-        )
+                ]
+            ),
+          )
+      ),
     );
   }
 
@@ -655,12 +660,14 @@ class ProfileModal {
   String? gender;
   int? age;
   String? profileImage;
+  List? gallery;
 
   ProfileModal({
     this.name,
     this.gender,
     this.age,
     this.profileImage,
+    this.gallery,
   });
 
 }

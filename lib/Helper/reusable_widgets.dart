@@ -136,6 +136,7 @@ class ReusableWidgets{
       bool isMandatory,
       Function()? onSuffixIconTap,
       bool disabled,
+      [Icon? prefixIcon,int? maxLines]
       ){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,15 +147,19 @@ class ReusableWidgets{
             Text(isMandatory?"*":"",style: TextStyle(color: Colors.red),),
           ],
         ),
-        SizedBox(height: 8,),
+        SizedBox(height: label==""?0:8,),
         TextField(
           enabled: !disabled,
           obscureText: obscureText!,
           controller: textEditingController,
           cursorColor: Theme.of(myContext).primaryColor,
+          maxLines: maxLines??1,
           decoration: InputDecoration(
               fillColor: Theme.of(myContext).primaryColor,
-              suffixIconColor: Theme.of(myContext).primaryColor,
+              prefixIconColor: Theme.of(myContext).primaryColor,
+              prefixIcon: prefixIcon,
+
+            suffixIconColor: Theme.of(myContext).primaryColor,
               suffixIcon: (obscureText)?IconButton(onPressed: onSuffixIconTap,
                   icon: Icon(obscureText?Icons.remove_red_eye:Icons.remove_red_eye_outlined)):null,
               enabledBorder: OutlineInputBorder(
@@ -254,6 +259,44 @@ class ReusableWidgets{
           ),
         ),
       ),
+    );
+  }
+
+  FluidDropDown(BuildContext context,String label,String hintText,List<String> _dropdownValues,Function(dynamic?)? onChanged,String? val) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(label,style:Theme.of(context).textTheme.titleMedium,),
+            Text(false?"*":"",style: TextStyle(color: Colors.red),),
+          ],
+        ),
+        SizedBox(height: label==""?0:8,),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            border: Border.all(
+                color: Theme.of(context).primaryColor, style: BorderStyle.solid, width: 0.80),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton(
+              hint: Text(hintText),
+              items: _dropdownValues
+                  .map((value) => DropdownMenuItem(
+                child: Text(value),
+                value: value,
+              ))
+                  .toList(),
+              onChanged: onChanged,
+              isExpanded: false,
+              value: val,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

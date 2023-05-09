@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'CompleteRegistration3Screen.dart';
+
 class CompleteRegistration2Screen extends StatefulWidget {
   const CompleteRegistration2Screen({Key? key}) : super(key: key);
 
@@ -15,8 +17,23 @@ class _CompleteRegistration2ScreenState extends State<CompleteRegistration2Scree
 
   TextEditingController emailTextEditingController = TextEditingController();
 
-  var professionList = <String>['Actress', 'Singer', 'Director', 'Producer'];
-  String? profession = 'Actress';
+  List<String> genderPreferences = [
+    "Male",
+    "Female",
+    "Transgender",
+    "Other"
+  ];
+
+  List<String> sexualIdentityPreferences = [
+    "Male",
+    "Female",
+    "Transgender",
+    "Non-Binary",
+    "Other"
+  ];
+
+  String? genderPreference;
+  String? sexualIdentityPreference;
 
 
   @override
@@ -24,49 +41,45 @@ class _CompleteRegistration2ScreenState extends State<CompleteRegistration2Scree
 
     var size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 36),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ReusableWidgets().FluidHeaderText("Create your Profile",context),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: size.width * 0.06, top: size.width * 0.04),
-              child: DropdownButton<String>(
-                value: profession,
-                style: GoogleFonts.poppins(
-                    textStyle: Theme.of(context).textTheme.headline6,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black),
-                underline: Container(
-                    height: 1.0,
-                   decoration: const BoxDecoration(
-                       border: Border(
-                             bottom: BorderSide(
-                                color: Colors.transparent, width: 0.0))),
-                   ),
-                icon: Icon(Icons.keyboard_arrow_down),
-                items: professionList.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (_) {},
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          padding: EdgeInsets.symmetric(horizontal: 36),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: size.height*0.1,),
+              ReusableWidgets().FluidHeaderText("Please Select Your",context),
+              SizedBox(height: size.height*0.05,),
+              ReusableWidgets().FluidDropDown(
+                  context,
+                  "Sexual identity preference","Please Select...",sexualIdentityPreferences,(val){
+                sexualIdentityPreference = val;
+                setState(() {});
+              },sexualIdentityPreference
               ),
-            ),
-            ReusableWidgets().FluidButton("NEXT", (){
+              SizedBox(height: size.height*0.05,),
+              ReusableWidgets().FluidDropDown(
+                  context,
+                  "Gender preference","Please Select...",genderPreferences,(val){
+                genderPreference = val;
+                setState(() {
+
+                });
+              },genderPreference
+              ),
+              SizedBox(height: size.height*0.4,),
+              ReusableWidgets().FluidButton("NEXT", (){
 
 
-              Get.to(CompleteRegistration2Screen());
+                Get.to(CompleteRegistration3Screen());
 
 
-            }, context),
+              }, context),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

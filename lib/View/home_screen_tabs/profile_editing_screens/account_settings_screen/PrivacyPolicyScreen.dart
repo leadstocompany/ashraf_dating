@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
-class CommunityGuidelinesScreen extends StatefulWidget {
-  const CommunityGuidelinesScreen({Key? key}) : super(key: key);
+class PrivacyPolicyScreen extends StatefulWidget {
+  const PrivacyPolicyScreen({Key? key}) : super(key: key);
 
   @override
-  State<CommunityGuidelinesScreen> createState() => _CommunityGuidelinesScreenState();
+  State<PrivacyPolicyScreen> createState() => _PrivacyPolicyScreenState();
 }
 
-class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
+class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
 
 
-  List<Map<String,String>> communityGuidelinesString = [
-    {"Be Respectful":""},
-    {"Be Inclusive":""},
-    {"Keep it Safe":""},
-    {"Protect your privacy":""},
-    {"Follow the law":""},
-    {"Use common sense":""}
+  List<Map<String,String>> privacyPolicyStrings = [
+    {"Types of data we collect":"We may collect personal information from you, such as your name, email address, location, and other details you provide when you create an account or use our app. We may also collect data on your preferences, interests, and behaviors as you use our app."},
+    {"Use of your personal data":"We use the information we collect to improve our app and provide you with a better user experience. We may also use your information to personalize your experience, to send you marketing communications, and to communicate with you about your account."},
+    {"Disclosure of your personal data":"We do not sell or rent your personal information to third parties. However, we may share your information with third-party service providers who help us provide our services, such as payment processors or analytics providers."},
   ];
 
   String welcomeText = "Welcome to Fluid, a community designed to connect and empower people of all genders, sexual orientations, and identities. Our community is founded on the principles of respect, inclusivity, and safety, and we expect all members to uphold these values at all times. By using Fluid, you agree to abide by the following community guidelines:";
@@ -34,10 +31,10 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
           icon: Icon(Icons.arrow_back,color: Theme.of(context).primaryColor,),
         ),
         backgroundColor: Colors.white,
-        title: Text("Community guidliness",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+        title: Text("Privacy Policy",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
       ),
       body: ListView.builder(
-        itemCount: communityGuidelinesString.length,
+        itemCount: privacyPolicyStrings.length,
         itemBuilder: (c,i){
           if(i==0){
             return Column(
@@ -46,18 +43,18 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
                   subtitle: Text(welcomeText),
                 ),
                 ListTile(
-                  title: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
-                  subtitle: Text(communityGuidelinesString[i].values.first),
+                  title: Text((i+1).toString()+". "+privacyPolicyStrings[i].keys.first),
+                  subtitle: Text(privacyPolicyStrings[i].values.first),
                 )
               ],
             );
           }
-          else if(i==communityGuidelinesString.length){
+          else if(i==privacyPolicyStrings.length){
             return Column(
               children: [
                 ListTile(
-                  title: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
-                  subtitle: Text(communityGuidelinesString[i].values.first),
+                  title: Text((i+1).toString()+". "+privacyPolicyStrings[i].keys.first),
+                  subtitle: Text(privacyPolicyStrings[i].values.first),
                 ),
                 ListTile(
                   subtitle: Text(welcomeText),
@@ -67,8 +64,8 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
           }
           else{
             return ListTile(
-              title: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
-              subtitle: Text(communityGuidelinesString[i].values.first),
+              title: Text((i+1).toString()+". "+privacyPolicyStrings[i].keys.first),
+              subtitle: Text(privacyPolicyStrings[i].values.first),
             );
           }
         },

@@ -40,7 +40,7 @@ dependencies:
   shared_preferences: ^2.1.0
   country_codes: ^2.2.0
 
-  firebase_core: ^2.10.0
+  firebase_core: ^2.11.0
   firebase_crashlytics: ^3.1.2
   camera: ^0.10.4
   get: ^4.6.5
@@ -53,8 +53,20 @@ dependencies:
   url_launcher: ^6.1.4
   firebase_auth: ^4.1.3
   intl_phone_number_input: ^0.7.0+2
+  dotted_border: ^2.0.0+3
   syncfusion_flutter_datepicker: ^20.3.58
   jiffy: ^5.0.0
+  cloud_firestore: ^4.6.0
+  google_sign_in: ^6.1.0
+  flutter_facebook_auth: ^3.5.0
+  sign_in_with_apple: ^3.0.0
+  firebase_storage: any
+  crypto: ^3.0.1
+  reorderable_grid: ^1.0.5
+  image_picker: ^0.8.5+3
+  flutter_image_compress: ^1.1.0
+  image: ^3.1.3
+  video_player: ^2.6.1
 
 dev_dependencies:
   flutter_test:

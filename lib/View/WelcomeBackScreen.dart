@@ -10,6 +10,7 @@ class WelcomeBackScreen extends StatefulWidget {
 class _WelcomeBackScreenState extends State<WelcomeBackScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Container(child: Text("WelcomeBackScreen"),));
+    return Scaffold(
+        body: Center(child: Container(child: Text("WelcomeBackScreen"),)));
   }
 }

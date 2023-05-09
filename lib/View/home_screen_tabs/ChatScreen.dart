@@ -141,7 +141,13 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 CircleAvatar(backgroundImage: NetworkImage("https://flxt.tmsimg.com/assets/283805_v9_ba.jpg"),radius: 50,),
                 SizedBox(width: 20,),
-                ReusableWidgets().FluidBoldHeaderText("Megan Fox", context, false)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ReusableWidgets().FluidParagraphText("Good Morning ,", context),
+                    ReusableWidgets().FluidBoldHeaderText("Megan Fox", context, false)
+                  ],
+                )
               ],
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: size.height*0.01),

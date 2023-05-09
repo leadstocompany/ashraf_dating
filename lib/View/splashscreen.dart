@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:fluid_dating_app/View/HomeScreenTab.dart';
+import 'package:fluid_dating_app/View/registration_screens/SignUpOrLoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,18 +18,25 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
   late final AnimationController _controller;
 
+  SharedPreferences? prefs;
+
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
     )..addStatusListener((AnimationStatus status) {
-      if (status == AnimationStatus.completed)
-        sleep(Duration(seconds:2));
+      if (status == AnimationStatus.completed){
         SchedulerBinding.instance.addPostFrameCallback((_){
-          Get.to(HomeScreenTab());
+
+          loadProperScreen();
+
+
         });
+      }
+
     });
     _controller.forward();
 
@@ -46,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
               return Transform.translate(
                 offset: Offset(0, 10 * _controller.value),
                 child: Image.asset(
-                    "top_left.png"
+                    "assets/top_left.png"
                 ),
               );
             },
@@ -59,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 return Transform.translate(
                   offset: Offset(0, 10 * _controller.value),
                   child: Image.asset(
-                      "top_right.png"
+                      "assets/top_right.png"
                   ),
                 );
               },
@@ -73,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 return Transform.translate(
                   offset: Offset(0, 10 * _controller.value),
                   child: Image.asset(
-                      "bottom_right.png"
+                      "assets/bottom_right.png"
                   ),
                 );
               },
@@ -87,7 +96,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 return Transform.translate(
                   offset: Offset(0, 10 * _controller.value),
                   child: Image.asset(
-                      "middle_left.png"
+                      "assets/middle_left.png"
                   ),
                 );
               },
@@ -103,11 +112,26 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
           ),
           Center(
             child: Image.asset(
-                "fluid_splashscreen_logo.png"
+                "assets/fluid_splashscreen_logo.png"
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> loadProperScreen() async {
+    prefs = await SharedPreferences.getInstance();
+    if(prefs?.containsKey("registered")??false){
+      if(prefs?.getBool("registered")??false){
+        Get.to(HomeScreenTab());
+      }
+      else{
+        Get.to(SignUpOrLoginScreen());
+      }
+    }
+    else{
+      Get.to(SignUpOrLoginScreen());
+    }
   }
 }

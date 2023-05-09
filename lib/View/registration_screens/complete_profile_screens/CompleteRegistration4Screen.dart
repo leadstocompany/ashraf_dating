@@ -51,7 +51,7 @@ class _CompleteRegistration4ScreenState extends State<CompleteRegistration4Scree
             Text("Verify your identity using your government issued ID for the highest security.",style: TextStyle(color: Colors.grey),),
             Text("We don’t store your ID information. ",style: TextStyle(color: Colors.grey),),
             ReusableWidgets().FluidButtonColor("ID VERIFICATION", (){
-              Get.to(CompleteRegistration4Screen());
+              Get.to(CompleteRegistration5Screen(profileName: 'asasas',));
             },Color(0xff47429D), context,Icon(Icons.document_scanner_outlined,color: Colors.white,)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,15 +61,13 @@ class _CompleteRegistration4ScreenState extends State<CompleteRegistration4Scree
                 Container(color: Colors.black,height: 1,width: size.width*0.25,),
               ],
             ),
-
-
             Text("Verify your account by taking a one-time "
                 "selfie that won’t be visible on your profile. ",style: TextStyle(color: Colors.grey),textAlign: TextAlign.center,),
 
             ReusableWidgets().FluidButtonColor("SELFIE VERIFICATION", (){
 
 
-              Get.to(CompleteRegistration5Screen());
+              Get.to(CompleteRegistration5Screen(profileName: 'asasas',));
 
 
             },Color(0xff8681E9), context,null),

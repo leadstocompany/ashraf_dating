@@ -7,9 +7,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:fluid_dating_app/View/HomeScreenTab.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/ChatScreen.dart';
+import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/PrivacyPolicyScreen.dart';
+import 'package:fluid_dating_app/View/registration_screens/MobileAuthScreen.dart';
 import 'package:fluid_dating_app/View/registration_screens/SignUpOrLoginScreen.dart';
 import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration1Screen.dart';
 import 'package:fluid_dating_app/View/splashscreen.dart';
+import 'package:fluid_dating_app/firebase_options.dart';
 import 'package:fluid_dating_app/network/my_http_overrides.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -26,8 +29,10 @@ import 'package:get/get.dart';
 import 'package:fluid_dating_app/network/http_methods.dart';
 
 import 'View/MessageScreen.dart';
+import 'View/home_screen_tabs/profile_editing_screens/EditProfileScreen.dart';
 import 'View/home_screen_tabs/profile_editing_screens/account_settings_screen/AccountSettingsScreen.dart';
 import 'View/registration_screens/complete_profile_screens/CompleteRegistration4Screen.dart';
+import 'View/registration_screens/complete_profile_screens/CompleteRegistration5Screen.dart';
 import 'View/registration_screens/complete_profile_screens/CompleteRegistration6Screen.dart';
 import 'View/registration_screens/complete_profile_screens/CompleteRegistration7Screen.dart';
 import 'helper/themes.dart';
@@ -114,9 +119,9 @@ Future<void> main() async {
   /*if(!kIsWeb){
     await CountryCodes.init();
   }*/
-  /*await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );*/
+  );
 
   // Get any initial links
   if(!kIsWeb){
@@ -342,6 +347,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: _mainNavigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Fluid',
+      themeMode: ThemeMode.light,
       theme:Themes().fluidsLightTheme.copyWith(
         textTheme: GoogleFonts.ralewayTextTheme(),
       ),
@@ -349,7 +355,7 @@ class MyApp extends StatelessWidget {
       //home:ProfilePage(profileName: "shraf6",),
       //home: MyWingsProfileForOtherUserScreen(profileName: 'ashrafking',),
       //initialRoute: '/',
-      home:SplashScreen(),
+      home:SplashScreen()
       //home:ChatScreen(),
     );
   }

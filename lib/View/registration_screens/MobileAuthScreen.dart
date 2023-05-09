@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:country_codes/country_codes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluid_dating_app/Helper/AppServices.dart';
+import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
 import 'package:fluid_dating_app/Network/api_repository.dart';
 import 'package:fluid_dating_app/View/WelcomeBackScreen.dart';
 import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration1Screen.dart';
@@ -133,66 +134,34 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
     print("Setting Phone Number to");
     print(number!.isoCode);
     return Scaffold(
-        backgroundColor: Colors.white,
+
         resizeToAvoidBottomInset: false,
-        body: !isCodeNotSend
+        body: isCodeNotSend
             ? Padding(
           padding: EdgeInsets.only(
               left: size.width * 0.1, right: size.width * 0.1),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: size.height * 0.03),
-              Center(child: Image.asset('assets/wings.png', scale: 2)),
+              SizedBox(height: size.height * 0.2),
               Text(
                 "My mobile",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.raleway(
                     textStyle: Theme.of(context).textTheme.headline4,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black),
+                    ),
               ),
               Text(
                   "Please enter your valid phone number.\nWe will send you a 6-digit code to verify\nyour account. ",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.raleway(
                       textStyle: Theme.of(context).textTheme.bodyLarge,
                       fontWeight: FontWeight.w400,
-                      color: Colors.black45)),
+                      color: Colors.grey)),
               SizedBox(
                 height: size.height * 0.02,
               ),
               MobileTextField(number),
-              SizedBox(
-                height: size.height * 0.05,
-              ),
-              InkWell(
-                onTap: () {
-                  print(number!.dialCode! + phoneNumberTextEditingController.text);
-
-                  ////If User Exists Fill the information
-
-                  phoneSignIn(number!.dialCode! + phoneNumberTextEditingController.text);
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: size.height * 0.09,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    border: Border.all(color: Colors.white, width: 2.0),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Continue',
-                      style: GoogleFonts.poppins(
-                          textStyle:
-                          Theme.of(context).textTheme.titleMedium,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
               SizedBox(
                 height: 20,
               ),
@@ -201,26 +170,24 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                   onPressed: () {
                     /*AppServices.launchMyUrl(termsURL);*/
                   },
-                  child: Text("I've Lost My Phone Number",
-                      style: GoogleFonts.poppins(
+                  child: Text("We will never share your private information with anyone and it won’t appear on your profile. ",
+                      style: GoogleFonts.raleway(
                           textStyle:
                           Theme.of(context).textTheme.bodyLarge,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).primaryColor)),
+                          color: Colors.grey)),
                 ),alignment: Alignment.center,
               ),
-              SizedBox(
-                height: size.height * 0.11,
-              ),
+              SizedBox(height: size.height * 0.3),
               /*Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(child: Divider(thickness: 2,),flex: 3,),
-                  Expanded(child: Text("   or sign up",style: GoogleFonts.poppins(textStyle: Theme.of(context).textTheme.bodySmall,fontWeight: FontWeight.normal,color: Colors.black)),flex: 2,),
+                  Expanded(child: Text("   or sign up",style: GoogleFonts.raleway(textStyle: Theme.of(context).textTheme.bodySmall,fontWeight: FontWeight.normal,color: Colors.black)),flex: 2,),
                   Expanded(child: Divider(thickness: 2,),flex: 3,),
                 ],
               ),
-              Text("with",style: GoogleFonts.poppins(textStyle: Theme.of(context).textTheme.bodySmall,fontWeight: FontWeight.normal,color: Colors.black)),
+              Text("with",style: GoogleFonts.raleway(textStyle: Theme.of(context).textTheme.bodySmall,fontWeight: FontWeight.normal,color: Colors.black)),
               SizedBox(height: size.height*0.02,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -238,36 +205,23 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
               ),
               SizedBox(height: size.height*0.1,),
               */
+              SizedBox(height: size.height*0.07,),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        AppServices.launchMyUrl(termsURL);
-                      },
-                      child: Text("Terms of use",
-                          style: GoogleFonts.poppins(
-                              textStyle:
-                              Theme.of(context).textTheme.bodyLarge,
-                              fontWeight: FontWeight.normal,
-                              color: Theme.of(context).primaryColor)),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        AppServices.launchMyUrl(privacyURL);
-                      },
-                      child: Text("Privacy Policy",
-                          style: GoogleFonts.poppins(
-                              textStyle:
-                              Theme.of(context).textTheme.bodyLarge,
-                              fontWeight: FontWeight.normal,
-                              color: Theme.of(context).primaryColor)),
-                    )
-                  ],
-                ),
+                child: ReusableWidgets().FluidButton("Continue", () {
+
+                  print(number!.dialCode! + phoneNumberTextEditingController.text);
+
+                  ////If User Exists Fill the information
+
+                  phoneSignIn(number!.dialCode! + phoneNumberTextEditingController.text);
+                }, context)
               )
+
+
+
+
+
             ],
           ),
         )
@@ -278,20 +232,22 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset('assets/wings.png', scale: 2.5),
+                  SizedBox(height: size.height*0.2,),
                   Text(
                     "$resendOTPButtonText",
-                    style: GoogleFonts.poppins(
-                        textStyle: Theme.of(context).textTheme.headline4,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                    style: GoogleFonts.robotoMono(
+                        textStyle: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          fontWeight: FontWeight.normal,fontSize: 80,
+                          color: Get.isDarkMode?Colors.white: Colors.black,
+                        ),
+                        ),
                   ),
                   Text(
                     "Type the verification code\n we’ve sent you",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.raleway(
                         textStyle: Theme.of(context).textTheme.bodyLarge,
                         fontWeight: FontWeight.w400,
-                        color: Colors.black45),
+                        color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
@@ -301,7 +257,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                   Expanded(
                       child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color:!Get.isDarkMode?Colors.white: Colors.black,
                             borderRadius:
                             BorderRadius.all(Radius.circular(20)),
                           ),
@@ -312,7 +268,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                               // the OTP from the user
                               PinCodeTextField(
                                 appContext: context,
-                                textStyle: GoogleFonts.poppins(
+                                textStyle: GoogleFonts.raleway(
                                     textStyle:
                                     Theme.of(context).textTheme.bodyLarge,
                                     fontWeight: FontWeight.bold,
@@ -328,8 +284,8 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                                   activeFillColor: !hasError
                                       ? Theme.of(context).primaryColor
                                       : Colors.white,
-                                  inactiveFillColor: Colors.white,
-                                  borderWidth: 0.5,
+                                  inactiveFillColor: Get.isDarkMode?Colors.black:Colors.white,
+                                  borderWidth: Get.isDarkMode?2.0:0.5,
                                   fieldHeight: 60.0,
                                   fieldWidth: 50.0,
                                   activeColor: Theme.of(context).primaryColor,
@@ -397,13 +353,13 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                                             .text
                                         : 'Send Again',
                                     style: disableResendOTPBtn
-                                        ? GoogleFonts.poppins(
+                                        ? GoogleFonts.raleway(
                                         textStyle: Theme.of(context)
                                             .textTheme
                                             .bodyLarge,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black45)
-                                        : GoogleFonts.poppins(
+                                        : GoogleFonts.raleway(
                                         textStyle: Theme.of(context)
                                             .textTheme
                                             .headline6,
@@ -440,7 +396,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                                         AppServices.launchMyUrl(termsURL);
                                       },
                                       child: Text("Terms of use",
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.raleway(
                                               textStyle: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge,
@@ -452,7 +408,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                                         AppServices.launchMyUrl(privacyURL);
                                       },
                                       child: Text("Privacy Policy",
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.raleway(
                                               textStyle: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge,
@@ -478,7 +434,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
       padding: EdgeInsets.all(size.height * 0.014),
       decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.black12,
+            color: Get.isDarkMode?Colors.white30: Colors.black12,
           ),
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
@@ -493,9 +449,9 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                     ? null
                     : "Field Cannot Be Blank",
               ),
-              textStyle: GoogleFonts.roboto(
+              textStyle: GoogleFonts.raleway(
                   textStyle: Theme.of(context).textTheme.titleMedium,
-                  color: Colors.black,
+                  color:Get.isDarkMode?Colors.white: Colors.black,
                   fontWeight: FontWeight.w400),
               onInputChanged: (PhoneNumber phoneNumber) {
                 print(phoneNumber.phoneNumber);
@@ -507,14 +463,15 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
               errorMessage: phoneNumberErrorText,
               selectorConfig: const SelectorConfig(
                 selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+
                 showFlags: true,
               ),
               ignoreBlank: false,
               autoValidateMode: AutovalidateMode.disabled,
-              selectorTextStyle: GoogleFonts.roboto(
+              selectorTextStyle: GoogleFonts.raleway(
                   textStyle: Theme.of(context).textTheme.titleMedium,
                   fontWeight: FontWeight.w400,
-                  color: Colors.black),
+                  color: Get.isDarkMode?Colors.white: Colors.black,),
               initialValue: PhoneNumber(
                   isoCode: numberd?.isoCode, dialCode: numberd?.dialCode),
               textFieldController: phoneNumberTextEditingController,

@@ -19,15 +19,26 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
 
   int pageIndex = 1;
 
-  final pages = [
-    ProfileScreen(),
-    ChatScreen(),
-    NotificationScreen(),
-    HomeScreen(),
-  ];
+  List pages = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pages = [
+      ProfileScreen(notifyParent: refresh,),
+      ChatScreen(),
+      NotificationScreen(),
+      HomeScreen(),
+    ];
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
 
     var size = MediaQuery.of(context).size;
 
@@ -38,12 +49,15 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
     return WillPopScope(
         child: SafeArea(
           child: Scaffold(
-
             body: pages[pageIndex],
             bottomNavigationBar: buildMyNavBar(context),
           ),
         ),
         onWillPop: _onWillPop);
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   Container buildMyNavBar(BuildContext context) {
@@ -59,10 +73,10 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
     }*/
 
     return Container(
-      height: 60,
+      height: MediaQuery.of(context).size.height*0.086,
       padding: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        color: Get.isDarkMode ?Colors.black : Colors.white54,
+        color: Get.isDarkMode ?Colors.black : Colors.white,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
         boxShadow: <BoxShadow>[
           BoxShadow(

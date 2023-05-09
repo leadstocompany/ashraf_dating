@@ -42,7 +42,7 @@ class _CompleteRegistration7ScreenState extends State<CompleteRegistration7Scree
             height: size.height*0.4,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("reverify_graphics.png")
+                    image: AssetImage("assets/reverify_graphics.png")
                 )
             ),
           ),
