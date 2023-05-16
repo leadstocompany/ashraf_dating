@@ -28,7 +28,7 @@ class MobileAuthScreen extends StatefulWidget {
 
 class _MobileAuthScreenState extends State<MobileAuthScreen> {
   PhoneNumber? number;
-  User? user = FirebaseAuth.instance.currentUser;
+  ///User? user = FirebaseAuth.instance.currentUser;
   TextEditingController phoneNumberTextEditingController =
   TextEditingController();
   TextEditingController emailAddressTextEditingController =
@@ -40,7 +40,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
 
   String? phoneNumberErrorText;
 
-  bool isCodeNotSend = false;
+  bool isCodeNotSend = true;
 
   bool disableResendOTPBtn = true;
 
@@ -81,7 +81,6 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
   }
 
   //TextEditingController otpVerificationTextEditingController = TextEditingController();
-
   //OTPTextEditController _otpTextEditingController;
 
   late SharedPreferences prefs;
@@ -131,8 +130,8 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print("Setting Phone Number to");
-    print(number!.isoCode);
+    /*print("Setting Phone Number to");
+    print(number!.isoCode);*/
     return Scaffold(
 
         resizeToAvoidBottomInset: false,
@@ -210,11 +209,14 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                 alignment: Alignment.bottomCenter,
                 child: ReusableWidgets().FluidButton("Continue", () {
 
-                  print(number!.dialCode! + phoneNumberTextEditingController.text);
+                  //print(number!.dialCode! + phoneNumberTextEditingController.text);
 
                   ////If User Exists Fill the information
+                  isCodeNotSend=!isCodeNotSend;
+                  setState(() {
 
-                  phoneSignIn(number!.dialCode! + phoneNumberTextEditingController.text);
+                  });
+                  //phoneSignIn(number!.dialCode! + phoneNumberTextEditingController.text);
                 }, context)
               )
 
@@ -237,7 +239,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                     "$resendOTPButtonText",
                     style: GoogleFonts.robotoMono(
                         textStyle: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          fontWeight: FontWeight.normal,fontSize: 80,
+                          fontWeight: FontWeight.normal,fontSize: 70,
                           color: Get.isDarkMode?Colors.white: Colors.black,
                         ),
                         ),
@@ -308,7 +310,8 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                                     // AppHelper.showSnackBarMessage("Please enter valid OTP.");
                                   } else {
                                     if (!isVerifiedSuccessfully) {
-                                      VerifyFirebaseOtp(otp.toString());
+                                      Get.to(CompleteRegistration1Screen());
+                                      //VerifyFirebaseOtp(otp.toString());
                                     }
                                   }
                                   // the below line of code is for debugging purpose
@@ -376,9 +379,9 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                                   print(number!.dialCode! +
                                       phoneNumberTextEditingController
                                           .text);
-                                  phoneSignIn(number!.dialCode! +
+                                  /*phoneSignIn(number!.dialCode! +
                                       phoneNumberTextEditingController
-                                          .text);
+                                          .text);*/
 
                                   setState(() {});
                                 },
@@ -441,7 +444,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: kIsWeb ? size.width * 0.2 : size.width * 0.9,
+            width: kIsWeb ? size.width * 0.9 : size.width * 0.9,
             child: InternationalPhoneNumberInput(
               inputDecoration: InputDecoration(
                 border: InputBorder.none,
@@ -488,7 +491,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
     );
   }
 
-  Future<void> phoneSignIn(String phoneNumber) async {
+  /*Future<void> phoneSignIn(String phoneNumber) async {
     ProgressDialog.show(context, "Please Wait");
 
     await _auth.verifyPhoneNumber(
@@ -497,9 +500,9 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
         verificationFailed: _onVerificationFailed,
         codeSent: _onCodeSent,
         codeAutoRetrievalTimeout: _onCodeTimeout);
-  }
+  }*/
 
-  _onVerificationCompleted(PhoneAuthCredential authCredential) async {
+  /*_onVerificationCompleted(PhoneAuthCredential authCredential) async {
     isVerifiedSuccessfully = true;
     //disableResendOTPBtn = true;
     startTimer();
@@ -528,12 +531,12 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
           print(authCredential.smsCode.toString());
           await Future.delayed(const Duration(seconds: 2), () {});
           ProgressDialog.hide();
-          /*userSessionModel.phoneNumber =
+          *//*userSessionModel.phoneNumber =
               number!.dialCode! + phoneNumberTextEditingController.text;
           userSessionModel.photoURL = null;
           userSessionModel.firebaseUserId = _auth.currentUser?.uid.toString();
           await prefs.setString(
-              "phoneNumber", userSessionModel.phoneNumber.toString());*/
+              "phoneNumber", userSessionModel.phoneNumber.toString());*//*
           print("Your Phone Number is");
           print(await prefs.getString("phoneNumber"));
           Get.offAll(WelcomeBackScreen());
@@ -550,10 +553,10 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
         otpTextEditingController.text = authCredential.smsCode.toString();
         ProgressDialog.hide();
         await Future.delayed(const Duration(seconds: 2), () {});
-        /*userSessionModel.phoneNumber =
+        *//*userSessionModel.phoneNumber =
             number!.dialCode! + phoneNumberTextEditingController.text;
         userSessionModel.photoURL = null;
-        userSessionModel.firebaseUserId = _auth.currentUser?.uid.toString();*/
+        userSessionModel.firebaseUserId = _auth.currentUser?.uid.toString();*//*
         await prefs.setString("phoneNumber", number!.dialCode! + phoneNumberTextEditingController.text.toString());
         print("Your Phone Number is");
         print(await prefs.getString("phoneNumber"));
@@ -571,10 +574,10 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
     otpTextEditingController.text = authCredential.smsCode.toString();
     ProgressDialog.hide();
     await Future.delayed(const Duration(seconds: 2), () {});
-    /*userSessionModel.phoneNumber =
+    *//*userSessionModel.phoneNumber =
         number!.dialCode! + phoneNumberTextEditingController.text;
     userSessionModel.photoURL = null;
-    userSessionModel.firebaseUserId = _auth.currentUser?.uid.toString();*/
+    userSessionModel.firebaseUserId = _auth.currentUser?.uid.toString();*//*
     print("_auth.currentUser?.uid.toStringasas()");
     print(_auth.currentUser?.uid.toString());
     print(await _auth.currentUser?.uid.toString());
@@ -633,18 +636,18 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
         otpTextEditingController.text = authCredential.smsCode.toString();
         ProgressDialog.hide();
         await Future.delayed(const Duration(seconds: 2), () {});
-        /*userSessionModel.phoneNumber =
+        *//*userSessionModel.phoneNumber =
             number!.dialCode! + phoneNumberTextEditingController.text;
-        userSessionModel.photoURL = null;*/
+        userSessionModel.photoURL = null;*//*
         print("_auth.currentUssasasasasasasasasasasasasasasasasasasasasasaer?.uid.toString()");
         print(_auth.currentUser?.uid.toString());
         print(await _auth.currentUser?.uid.toString());
-        /*await prefs.setString(
+        *//*await prefs.setString(
             "phoneNumber", userSessionModel.phoneNumber.toString());
         print("Your Phone Number is");
         print(await prefs.getString("phoneNumber"));
         print("userSessionModel.firebaseUserId");
-        print(userSessionModel.firebaseUserId);*/
+        print(userSessionModel.firebaseUserId);*//*
         print("TERMN - 02121");
         Get.offAll(CompleteRegistration1Screen());
         Get.offAll(CompleteRegistration1Screen());
@@ -661,19 +664,19 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
         otpTextEditingController.text = authCredential.smsCode.toString();
         await Future.delayed(const Duration(seconds: 2), () {});
         ProgressDialog.hide();
-        /*userSessionModel.phoneNumber =
+        *//*userSessionModel.phoneNumber =
             number!.dialCode! + phoneNumberTextEditingController.text;
         userSessionModel.photoURL = null;
         userSessionModel.firebaseUserId = _auth.currentUser?.uid.toString();
         await prefs.setString(
-            "phoneNumber", userSessionModel.phoneNumber.toString());*/
+            "phoneNumber", userSessionModel.phoneNumber.toString());*//*
         print("Your Phone Number is");
         print(await prefs.getString("phoneNumber"));
         print("userSessionModel.firebaseUserId");
         print("_auth.currentUser?.asasasuid.toString()");
         print(_auth.currentUser?.uid.toString());
         print(await _auth.currentUser?.uid.toString());
-/*        print(userSessionModel.firebaseUserId);*/
+*//*        print(userSessionModel.firebaseUserId);*//*
         Get.offAll(WelcomeBackScreen());
       } else {
         print("Somethiong else");
@@ -681,9 +684,9 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
         otpTextEditingController.text = authCredential.smsCode.toString();
         ProgressDialog.hide();
         await Future.delayed(const Duration(seconds: 2), () {});
-        /*userSessionModel.phoneNumber =
+        *//*userSessionModel.phoneNumber =
             number!.dialCode! + phoneNumberTextEditingController.text;
-        userSessionModel.photoURL = null;*/
+        userSessionModel.photoURL = null;*//*
         print(
             "_auth.currentUssasasasasasasasasasasasasasasasasasasasasasaer?.uid.toString()");
         print(_auth.currentUser?.uid.toString());
@@ -700,5 +703,5 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
     }
     //verifyOtp(widget.userPhoneNumber.toString(), widget.otp.toString());
     //_auth.verifyPhoneNumber(phoneNumber: phoneNumber, verificationCompleted: verificationCompleted, verificationFailed: verificationFailed, codeSent: codeSent, codeAutoRetrievalTimeout: codeAutoRetrievalTimeout)
-  }
+  }*/
 }

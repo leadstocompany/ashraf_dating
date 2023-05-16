@@ -32,7 +32,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Column(
         children: [
           Container(
-            color: primaryColorOfApp,
+            decoration: BoxDecoration(
+              color: primaryColorOfApp,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)
+              )
+            ),
             height:size.height*0.26 ,
             width: size.width,
             child: Column(

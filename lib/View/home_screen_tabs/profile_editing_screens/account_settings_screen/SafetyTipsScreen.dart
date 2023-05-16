@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SafetyTipsScreen extends StatefulWidget {
   const SafetyTipsScreen({Key? key}) : super(key: key);
@@ -27,6 +28,9 @@ class _SafetyTipsScreenState extends State<SafetyTipsScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -37,21 +41,26 @@ class _SafetyTipsScreenState extends State<SafetyTipsScreen> {
           icon: Icon(Icons.arrow_back,color: Theme.of(context).primaryColor,),
         ),
         backgroundColor: Colors.white,
-        title: Text("Community guidliness",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+        title: Text("Safety Tips",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
       ),
       body: ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 16),
         itemCount: safetyTipsStrings.length,
         itemBuilder: (c,i){
           return Container(
-            
-            
+            padding: EdgeInsets.symmetric(vertical: height*0.01),
             child:RichText(
               text: TextSpan(
                   text: (i+1).toString()+". "+safetyTipsStrings[i].keys.first,
-                  style: TextStyle(
-                      color: Colors.black,fontWeight: FontWeight.bold, fontSize: 18),
+
+                  style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                        color: Colors.black,fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                   children: <TextSpan>[
-                    TextSpan(text: safetyTipsStrings[i].values.first,
+                    TextSpan(text: safetyTipsStrings[i].values.first,style: GoogleFonts.raleway(
+                      textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.normal)
+                    )
                     )
                   ]
               ),

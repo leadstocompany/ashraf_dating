@@ -1,4 +1,5 @@
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -135,15 +136,20 @@ class _MessageScreenState extends State<MessageScreen> {
                 Expanded(child: Container()),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Container(
-                    width: 55,
-                    height: 55,
-                    margin: EdgeInsets.symmetric(horizontal: size.width*0.02,
-                        vertical:size.width*0.02 ),
-                    child: Icon(Icons.more_vert_rounded,color: Colors.grey,),decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10),
-                  ),),
+                  child: InkWell(
+                    onTap: (){
+                      _showActionSheet(context);
+                    },
+                    child: Container(
+                      width: 55,
+                      height: 55,
+                      margin: EdgeInsets.symmetric(horizontal: size.width*0.02,
+                          vertical:size.width*0.02 ),
+                      child: Icon(Icons.more_vert_rounded,color: Colors.grey,),decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),),
+                  ),
                 )
               ],
             ),
@@ -275,4 +281,74 @@ class _MessageScreenState extends State<MessageScreen> {
       ),
     );
   }
+
+  // This shows a CupertinoModalPopup which hosts a CupertinoActionSheet.
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+
+       // message: const Text('Select an action for the selected user'),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+
+            /// This parameter indicates the action would be a default
+            /// defualt behavior, turns the action's text to bold text.
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child:Text('Block User'),
+          ),
+          CupertinoActionSheetAction(
+
+            /// This parameter indicates the action would be a default
+            /// defualt behavior, turns the action's text to bold text.
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child:Text('Report User'),
+          ),
+          CupertinoActionSheetAction(
+
+            /// This parameter indicates the action would be a default
+            /// defualt behavior, turns the action's text to bold text.
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child:Text('Report User'),
+          ),
+          CupertinoActionSheetAction(
+
+            /// This parameter indicates the action would be a default
+            /// defualt behavior, turns the action's text to bold text.
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child:Text('Mute Notifications'),
+          ),
+          CupertinoActionSheetAction(
+
+            /// This parameter indicates the action would be a default
+            /// defualt behavior, turns the action's text to bold text.
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child:Text('Search'),
+          ),
+          /*CupertinoActionSheetAction(
+            /// This parameter indicates the action would perform
+            /// a destructive action such as delete or exit and turns
+            /// the action's text color to red.
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Close'),
+          ),*/
+        ],
+      ),
+    );
+  }
+
+
 }

@@ -181,7 +181,14 @@ class _SignUpOrLoginScreenState extends State<SignUpOrLoginScreen> {
           setState(() {});
         },false),
         ReusableWidgets().FluidButton("Sign Up", () async {
-          if(emailTextEditingController.text.isNotEmpty){
+
+          Get.to(MobileAuthScreen());
+
+
+
+
+
+          /*if(emailTextEditingController.text.isNotEmpty){
             emailErrorText = null;
             if(passwordTextEditingController.text.isNotEmpty){
               emailErrorText = null;
@@ -206,7 +213,7 @@ class _SignUpOrLoginScreenState extends State<SignUpOrLoginScreen> {
           }
           else{
             emailErrorText = "Email cannot be blank";
-          }
+          }*/
         }, context),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -272,6 +279,10 @@ class _SignUpOrLoginScreenState extends State<SignUpOrLoginScreen> {
           setState(() {});
         },false),
         ReusableWidgets().FluidButton("Log In", () async {
+
+          Get.to(MobileAuthScreen());
+          return;
+
           if(emailTextEditingController.text.isNotEmpty){
             emailErrorText = null;
             if(passwordTextEditingController.text.isNotEmpty){
@@ -325,6 +336,7 @@ class _SignUpOrLoginScreenState extends State<SignUpOrLoginScreen> {
             Text("Don't have an account ?"),
             InkWell(
                 onTap: (){
+
                   wantsToSignUp=!wantsToSignUp;
                   setState(() {
 

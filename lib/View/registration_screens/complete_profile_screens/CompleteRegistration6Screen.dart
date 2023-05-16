@@ -41,6 +41,7 @@ class _CompleteRegistration6ScreenState extends State<CompleteRegistration6Scree
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: size.height*0.1,),
                   Text("We are verifying\nyour account",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 30),textAlign: TextAlign.center,),
                   Text("We take our app security very seriously, so you can enjoy... in a safe environment ",style: TextStyle(fontWeight: FontWeight.w400,),textAlign: TextAlign.center),
                   SizedBox(height: size.height*0.4,),

@@ -1,3 +1,4 @@
+import 'package:fluid_dating_app/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -136,7 +137,7 @@ class ReusableWidgets{
       bool isMandatory,
       Function()? onSuffixIconTap,
       bool disabled,
-      [Icon? prefixIcon,int? maxLines]
+      [Icon? prefixIcon,int? maxLines,Function()? onTap]
       ){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,6 +151,7 @@ class ReusableWidgets{
         SizedBox(height: label==""?0:8,),
         TextField(
           enabled: !disabled,
+          onTap: onTap,
           obscureText: obscureText!,
           controller: textEditingController,
           cursorColor: Theme.of(myContext).primaryColor,
@@ -210,7 +212,9 @@ class ReusableWidgets{
   }
 
   FluidHeaderText(String s,BuildContext context) {
-    return Text(s,style: Theme.of(context).textTheme.headlineLarge,);
+    return Text(s,style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+      color: Colors.black,fontWeight: FontWeight.w500
+    ),);
   }
 
   FluidNoteText(String s,BuildContext context) {
@@ -222,12 +226,18 @@ class ReusableWidgets{
   }
 
   FluidBoldHeaderText(String s,BuildContext context,bool isAlignedCenter) {
-    return Text(s,style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+    return Text(s,style: Theme.of(context).textTheme.headlineSmall?.copyWith(
       fontWeight: FontWeight.w900
     ),textAlign:isAlignedCenter? TextAlign.center:TextAlign.left,);
   }
   FluidBoldSubHeaderText(String s,BuildContext context,bool isAlignedCenter) {
     return Text(s,style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+        fontWeight: FontWeight.w900
+    ),textAlign:isAlignedCenter? TextAlign.center:TextAlign.left,);
+  }
+
+  FluidBoldSmallSubHeaderText(String s,BuildContext context,bool isAlignedCenter) {
+    return Text(s,style: Theme.of(context).textTheme.labelLarge?.copyWith(
         fontWeight: FontWeight.w900
     ),textAlign:isAlignedCenter? TextAlign.center:TextAlign.left,);
   }
@@ -300,4 +310,76 @@ class ReusableWidgets{
     );
   }
 
+}
+
+// Multi Select widget
+// This widget is reusable
+class MultiSelect extends StatefulWidget {
+  final List<String> items;
+  const MultiSelect({Key? key, required this.items}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MultiSelectState();
+}
+
+class _MultiSelectState extends State<MultiSelect> {
+  // this variable holds the selected items
+  final List<String> _selectedItems = [];
+
+// This function is triggered when a checkbox is checked or unchecked
+  void _itemChange(String itemValue, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        _selectedItems.add(itemValue);
+      } else {
+        _selectedItems.remove(itemValue);
+      }
+    });
+  }
+
+  // this function is called when the Cancel button is pressed
+  void _cancel() {
+    Navigator.pop(context);
+  }
+
+// this function is called when the Submit button is tapped
+  void _submit() {
+    Navigator.pop(context, _selectedItems);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Select Topics'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.items
+              .map((item) => CheckboxListTile(
+            activeColor: primaryColorOfApp,
+            value: _selectedItems.contains(item),
+            title: Text(item),
+            controlAffinity: ListTileControlAffinity.leading,
+            onChanged: (isChecked) => _itemChange(item, isChecked!),
+          ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: primaryColorOfApp// Text Color
+          ),
+          onPressed: _cancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          style: TextButton.styleFrom(
+              backgroundColor: primaryColorOfApp// Text Color
+          ),
+          onPressed: _submit,
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
 }

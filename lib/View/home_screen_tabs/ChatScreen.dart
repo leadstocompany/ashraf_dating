@@ -23,8 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
     myMatches = [
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -35,8 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -47,8 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -59,8 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -71,8 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -83,8 +78,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -95,8 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -107,8 +100,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -119,8 +111,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       Container(
         padding: EdgeInsets.only(right:10,),
-        width: size.width*0.35,
-        height: size.height*0.3,
+        width: size.width*0.2,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20), // Image border
           child: SizedBox.fromSize(
@@ -139,7 +130,7 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Row(
               children: [
-                CircleAvatar(backgroundImage: NetworkImage("https://flxt.tmsimg.com/assets/283805_v9_ba.jpg"),radius: 50,),
+                CircleAvatar(backgroundImage: NetworkImage("https://flxt.tmsimg.com/assets/283805_v9_ba.jpg"),radius: 40,),
                 SizedBox(width: 20,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,9 +142,9 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: size.height*0.01),
-            child: ReusableWidgets().FluidBoldSubHeaderText("Your Matches", context, false),),
+            child: ReusableWidgets().FluidBoldSmallSubHeaderText("Your Matches", context, false),),
             Container(
-              height: size.height*0.3,
+              height: size.height*0.15,
               child: ListView.builder(
                 itemCount: myMatches.length,
                 itemBuilder: (c,i){

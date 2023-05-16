@@ -88,7 +88,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final ImagePicker imagePicker = ImagePicker();
 
   UploadTask? task;
-
+  
+  List<String> selectedIntrests = [];
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -201,20 +203,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   List<Widget> choiceChips() {
     List<Widget> chips = [];
+    
     for (int i = 0; i < _choiceChipsList.length; i++) {
       Widget item = Padding(
         padding: const EdgeInsets.only(top: 10),
         child: ChoiceChip(
           label: Text(_choiceChipsList[i].label),
-          labelStyle: TextStyle(color: _selectedIndex == i?Colors.white:Colors.black),
+          labelStyle: TextStyle(color: selectedIntrests.contains(_choiceChipsList[i].label)?Colors.white:Colors.black),
           shape: StadiumBorder(side: BorderSide(color: Theme.of(context).primaryColor)),
           //backgroundColor: _choiceChipsList[i].color,
           backgroundColor: Colors.white,
-          selected: _selectedIndex == i,
+          selected: selectedIntrests.contains(_choiceChipsList[i].label),
           selectedColor: Theme.of(context).primaryColor,
           onSelected: (bool value) {
             setState(() {
               _selectedIndex = i;
+              selectedIntrests.add(_choiceChipsList[i].label);
             });
           },
         ),
@@ -323,12 +327,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   PhotoAlbumGrid() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 0,vertical: 10),
-      height: 360,
+      //height: 360,
       child: ReorderableGridView.builder(
-
         onReorder: _onReorder,
+        shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 150,
           crossAxisSpacing: 10,
@@ -336,9 +339,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           childAspectRatio: 1,
         ),
         itemBuilder: (c, i) {
-          print("Buildeing");
-
-
           return Container(
               key: ValueKey(i),
               child: uploadedToBackendImageUrls[i] != "" ?

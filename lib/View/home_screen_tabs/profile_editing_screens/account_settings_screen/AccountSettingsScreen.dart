@@ -1,7 +1,11 @@
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/ChangePasswordScreen.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/CommunityGuidelinesScreen.dart';
+import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/PrivacyPolicyScreen.dart';
+import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/SafetyTipsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+
+import 'TermsAndConditionsScreen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({Key? key}) : super(key: key);
@@ -85,6 +89,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               ),
               Divider(),
               ListTile(
+                onTap: (){
+                  Get.to(SafetyTipsScreen());
+                },
                 title: Text("Safety tips"),
               ),
 
@@ -112,10 +119,16 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               ),
               Divider(),
               ListTile(
+                onTap: (){
+                  Get.to(PrivacyPolicyScreen());
+                },
                 title: Text("Privacy policy"),
               ),
               Divider(),
               ListTile(
+                onTap: (){
+                  Get.to(TermsAndConditionsScreen());
+                },
                 title: Text("Terms & Conditions"),
               ),
               Divider(),

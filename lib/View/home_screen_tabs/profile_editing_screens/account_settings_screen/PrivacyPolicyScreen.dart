@@ -19,8 +19,12 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   String welcomeText = "Welcome to Fluid, a community designed to connect and empower people of all genders, sexual orientations, and identities. Our community is founded on the principles of respect, inclusivity, and safety, and we expect all members to uphold these values at all times. By using Fluid, you agree to abide by the following community guidelines:";
 
 
+
   @override
   Widget build(BuildContext context) {
+
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -34,40 +38,19 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
         title: Text("Privacy Policy",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
       ),
       body: ListView.builder(
+        padding: EdgeInsets.only(top: height*0.01),
         itemCount: privacyPolicyStrings.length,
         itemBuilder: (c,i){
-          if(i==0){
-            return Column(
-              children: [
-                ListTile(
-                  subtitle: Text(welcomeText),
-                ),
-                ListTile(
-                  title: Text((i+1).toString()+". "+privacyPolicyStrings[i].keys.first),
-                  subtitle: Text(privacyPolicyStrings[i].values.first),
-                )
-              ],
-            );
-          }
-          else if(i==privacyPolicyStrings.length){
-            return Column(
-              children: [
-                ListTile(
-                  title: Text((i+1).toString()+". "+privacyPolicyStrings[i].keys.first),
-                  subtitle: Text(privacyPolicyStrings[i].values.first),
-                ),
-                ListTile(
-                  subtitle: Text(welcomeText),
-                ),
-              ],
-            );
-          }
-          else{
-            return ListTile(
-              title: Text((i+1).toString()+". "+privacyPolicyStrings[i].keys.first),
+          return Padding(
+            padding: EdgeInsets.only(bottom: height*0.02),
+            child: ListTile(
+              title: Padding(
+                padding: EdgeInsets.symmetric(vertical: height*0.01),
+                child: Text((i+1).toString()+". "+privacyPolicyStrings[i].keys.first),
+              ),
               subtitle: Text(privacyPolicyStrings[i].values.first),
-            );
-          }
+            ),
+          );
         },
       ),
     );

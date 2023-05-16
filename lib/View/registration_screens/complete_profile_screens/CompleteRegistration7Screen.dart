@@ -1,4 +1,5 @@
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
+import 'package:fluid_dating_app/View/HomeScreenTab.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -90,7 +91,7 @@ class _CompleteRegistration7ScreenState extends State<CompleteRegistration7Scree
           ReusableWidgets().FluidButton("NEXT", (){
 
 
-            Get.to(CompleteRegistration7Screen());
+            Get.to(HomeScreenTab());
 
 
           }, context),

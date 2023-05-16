@@ -35,6 +35,8 @@ class _CompleteRegistration2ScreenState extends State<CompleteRegistration2Scree
   String? genderPreference;
   String? sexualIdentityPreference;
 
+  RangeValues ageRangeValues = const RangeValues(18, 60);
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +70,25 @@ class _CompleteRegistration2ScreenState extends State<CompleteRegistration2Scree
 
                 });
               },genderPreference
+              ),
+              SizedBox(height: size.height*0.05,),
+              Text("Age",style:Theme.of(context).textTheme.titleMedium,),
+              RangeSlider(
+                values: ageRangeValues,
+                min: 0,
+                max: 100,
+                activeColor: Colors.purple,
+                inactiveColor: Colors.purple.shade100,
+                divisions: 10,
+                labels: RangeLabels(
+                  ageRangeValues.start.round().toString(),
+                  ageRangeValues.end.round().toString(),
+                ),
+                onChanged: (RangeValues values) {
+                  setState(() {
+                    ageRangeValues = values;
+                  });
+                },
               ),
               SizedBox(height: size.height*0.4,),
               ReusableWidgets().FluidButton("NEXT", (){

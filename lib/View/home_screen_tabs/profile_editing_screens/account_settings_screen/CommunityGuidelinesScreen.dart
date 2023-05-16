@@ -26,6 +26,9 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -44,11 +47,17 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
           if(i==0){
             return Column(
               children: [
-                ListTile(
-                  subtitle: Text(welcomeText),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: height*0.02),
+                  child: ListTile(
+                    subtitle: Text(welcomeText),
+                  ),
                 ),
                 ListTile(
-                  title: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
+                  title: Padding(
+                    padding: EdgeInsets.only(bottom: height*0.01),
+                    child: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
+                  ),
                   subtitle: Text(communityGuidelinesString[i].values.first),
                 )
               ],
@@ -57,9 +66,11 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
           else if(i==communityGuidelinesString.length){
             return Column(
               children: [
-                ListTile(
-                  title: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
-                  subtitle: Text(communityGuidelinesString[i].values.first),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: height*0.05),                  child: ListTile(
+                    title: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
+                    subtitle: Text(communityGuidelinesString[i].values.first),
+                  ),
                 ),
                 ListTile(
                   subtitle: Text(endingText),
@@ -68,9 +79,15 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
             );
           }
           else{
-            return ListTile(
-              title: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
-              subtitle: Text(communityGuidelinesString[i].values.first),
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: height*0.01),
+              child: ListTile(
+                title: Padding(
+                  padding: EdgeInsets.only(bottom: height*0.01),
+                  child: Text((i+1).toString()+". "+communityGuidelinesString[i].keys.first),
+                ),
+                subtitle: Text(communityGuidelinesString[i].values.first),
+              ),
             );
           }
         },

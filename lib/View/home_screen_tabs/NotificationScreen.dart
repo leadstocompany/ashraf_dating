@@ -24,14 +24,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
         automaticallyImplyLeading: false,
         title: Text("Notifications",style: Theme.of(context).textTheme.headlineSmall,),
         elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: CircleAvatar(
+              backgroundImage:  NetworkImage("https://i.ibb.co/D7jVpXK/343546054-784306129709024-5849246366806181903-n.jpg"),
+            ),
+          )
+        ],
       ),
       body: ListView.separated(
         shrinkWrap: true,
+        padding: EdgeInsets.only(top: 10),
         separatorBuilder: (c,i){
-          return Padding(
-            padding: EdgeInsets.only(left: size.width*0.15),
-            child: Divider(),
-          );
+          return Divider();
         },
         itemBuilder: (c,i){
           return Container(
