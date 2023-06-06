@@ -2,6 +2,7 @@ import 'package:fluid_dating_app/Helper/AppServices.dart';
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/EditProfileScreen.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/AccountSettingsScreen.dart';
+import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/InviteScreen.dart';
 import 'package:fluid_dating_app/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,13 +34,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: primaryColorOfApp,
+              color: customSelectionColorOfApp,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10)
               )
             ),
-            height:size.height*0.26 ,
+            height:290,
             width: size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -53,9 +54,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: Column(
+          Flexible(
+            child: ListView(
+              padding: EdgeInsets.all(10),
+              primary: true,
+              shrinkWrap: true,
               children: [
                 ListTile(
                   onTap:(){
@@ -69,9 +72,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   onTap: (){
                     /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>  AccountSettingsScreen()),
-                    );*/
+                        context,
+                        MaterialPageRoute(builder: (context) =>  AccountSettingsScreen()),
+                      );*/
                     Get.to(AccountSettingsScreen());
                   },
                   leading: Icon(Icons.settings),
@@ -80,6 +83,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Divider(),
                 ListTile(
+                  onTap: (){
+                    Get.to(InviteScreen());
+                  },
                   leading: Icon(Icons.person_add_alt_1_rounded),
                   title: Text("Invite"),
                   trailing: Icon(Icons.arrow_forward_ios_rounded),

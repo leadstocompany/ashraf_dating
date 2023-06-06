@@ -33,14 +33,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:fluid_dating_app/network/http_methods.dart';
 
+import 'Helper/AppServices.dart';
+import 'View/CloseUpProfileView.dart';
 import 'View/MessageScreen.dart';
 import 'View/home_screen_tabs/NotificationScreen.dart';
 import 'View/home_screen_tabs/profile_editing_screens/EditProfileScreen.dart';
 import 'View/home_screen_tabs/profile_editing_screens/account_settings_screen/AccountSettingsScreen.dart';
+import 'View/home_screen_tabs/profile_editing_screens/account_settings_screen/InviteScreen.dart';
+import 'View/registration_screens/complete_profile_screens/BioAndInterestScreen.dart';
+import 'View/registration_screens/complete_profile_screens/CompleteRegistration2Screen.dart';
 import 'View/registration_screens/complete_profile_screens/CompleteRegistration4Screen.dart';
 import 'View/registration_screens/complete_profile_screens/CompleteRegistration5Screen.dart';
 import 'View/registration_screens/complete_profile_screens/CompleteRegistration6Screen.dart';
 import 'View/registration_screens/complete_profile_screens/CompleteRegistration7Screen.dart';
+import 'View/registration_screens/complete_profile_screens/FilterByScreenForRegistration.dart';
 import 'helper/themes.dart';
 // iOS only: Localized labels language setting is equal to CFBundleDevelopmentRegion value (Info.plist) of the iOS project
 // Set iOSLocalizedLabels=false if you always want english labels whatever is the CFBundleDevelopmentRegion value.
@@ -114,7 +120,7 @@ class ReceivedNotification {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
+  await SharedPrefs().init();
   if(!kIsWeb){
     final document = await getApplicationDocumentsDirectory();
     await Hive.initFlutter(document.path);
@@ -361,7 +367,7 @@ class MyApp extends StatelessWidget {
       //home:ProfilePage(profileName: "shraf6",),
       //home: MyWingsProfileForOtherUserScreen(profileName: 'ashrafking',),
       //initialRoute: '/',
-      home:SplashScreen()
+      home:HomeScreenTab()
       //home:ChatScreen(),
     );
   }

@@ -1,14 +1,15 @@
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluid_dating_app/Helper/app_helper.dart';
 import 'package:fluid_dating_app/Helper/progress_dialog.dart';
-import 'package:fluid_dating_app/Network/api_repository.dart';
+import 'package:fluid_dating_app/Network/api_repository_for_firebase.dart';
 import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration6Screen.dart';
+import 'package:fluid_dating_app/globals.dart';
 import 'package:fluid_dating_app/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:video_player/video_player.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
@@ -32,7 +33,7 @@ class _CompleteRegistration5ScreenState extends State<CompleteRegistration5Scree
 
   String selectedVideoPromptMessage = "";
 
-  late Future<List<String>> myPromptsList;
+  //late Future<List<String>> myPromptsList;
 
   XFile? imageFile;
   XFile? videoFile;
@@ -53,7 +54,7 @@ class _CompleteRegistration5ScreenState extends State<CompleteRegistration5Scree
   void initState() {
     super.initState();
     initCamera(0);
-    myPromptsList = getVideoPromptQuestions();
+    //myPromptsList = getVideoPromptQuestions();
   }
 
 
@@ -65,158 +66,97 @@ class _CompleteRegistration5ScreenState extends State<CompleteRegistration5Scree
 
     return SafeArea(
       child: Material(
-        child: videoFile==null?FutureBuilder<List<String>>(
-            future: myPromptsList,
-            builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went  wrong');
-              }
-
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return AppHelper().LaodingPleaseWaitWidget("Please Wait",context);
-              }
-
-
-              List<String>? promptQuestions = snapshot.data;
-
-              return Stack(
-                  children: <Widget>[
-                    Container(
-                        height: size.height,
-                        width: size.width,
-                        child: CameraPreview(controller)),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 40.0,left: 30,right: 30),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(!controller.value.isRecordingVideo?"":"Recording....",style: TextStyle(color: Colors.black),),
-                              InkWell(
-                                onTap: () async {
-                                  if(controller.value.isRecordingVideo){
-                                    return;
-                                  }
-                                  ///Open a Prompt Modal Bottom Sheet Maybe
-                                  showModalBottomSheet(
-                                      context: context,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-                                      ),
-                                      builder: (BuildContext context) {
+        child: videoFile==null?Stack(
+            children: <Widget>[
+              Container(
+                  height: size.height,
+                  width: size.width,
+                  child: CameraPreview(controller)),
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40.0,left: 30,right: 30),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(!controller.value.isRecordingVideo?"":"Recording....",style: TextStyle(color: Colors.black),),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 20,top: 10),
+                          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Text(!controller.value.isRecordingVideo?"Align Your Face and record":"Press to stop recording",style: TextStyle(color: Colors.white),),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CircleAvatar(radius:30,backgroundColor:Colors.black.withOpacity(0.5),child: Icon(Icons.image,size: 30,color: Colors.white,)),
 
 
-                                        return Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(10.0),
-                                              child: Text("Select a prompt question",style : Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),),
-                                            ),
-                                            Flexible(
-                                              child: ListView.builder(
-                                                  itemCount: promptQuestions!.length,
-                                                  itemBuilder: (c,i){
+                            InkWell(
+                              onTap: (){
 
-                                                    return ListTile(
-                                                      title: Text(promptQuestions[i]),
-                                                      onTap: () {
-                                                        print(promptQuestions[i]);
-                                                        selectedVideoPromptMessage = promptQuestions[i];
-                                                        Navigator.pop(context);
-                                                        setState(() {
+                                if(!controller.value.isRecordingVideo){
+                                  onVideoRecordButtonPressed();
+                                }
+                                else{
+                                  onStopButtonPressed();
+                                }
 
-                                                        });
-                                                      },
-                                                    );
-                                                  }),
-                                            ),
-                                          ],
-                                        );
-                                        // return your layout
-                                      });
-                                  ///
+                                setState(() {
 
-                                },
+                                });
+
+
+                              },
+                              child:!controller.value.isRecordingVideo? CircleAvatar(radius: 45,backgroundColor: Theme.of(context).primaryColor,child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 35,
+                              ),):Container(
+                                height: 70,
+                                width: 70,
+                                padding: EdgeInsets.all(20),
                                 child: Container(
-                                  margin: EdgeInsets.only(bottom: 20,top: 10),
-                                  padding: EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+                                  height: 40,
+                                  width: 40,
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(100),
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.red,
                                   ),
-                                  child: Text(!controller.value.isRecordingVideo?selectedVideoPromptMessage:"Press to stop recording",style: TextStyle(color: Colors.white),),
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CircleAvatar(radius:30,backgroundColor:Colors.black.withOpacity(0.5),child: Icon(Icons.image,size: 30,color: Colors.white,)),
+                            ),
+                            InkWell(
 
+                                onTap: (){
+                                  if(controller.cameraId==0){
+                                    initCamera(1);
+                                  }
+                                  else{
+                                    initCamera(0);
+                                  }
+                                  setState(() {
 
-                                  InkWell(
-                                    onTap: (){
+                                  });
+                                },
+                                child: CircleAvatar(radius:30,backgroundColor:Colors.black.withOpacity(0.5),child: Icon(Icons.camera_front,size: 30,color: Colors.white,))),
 
-                                      if(!controller.value.isRecordingVideo){
-                                        onVideoRecordButtonPressed();
-                                      }
-                                      else{
-                                        onStopButtonPressed();
-                                      }
-
-                                      setState(() {
-
-                                      });
-
-
-                                    },
-                                    child:!controller.value.isRecordingVideo? CircleAvatar(radius: 45,backgroundColor: Theme.of(context).primaryColor,child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      radius: 35,
-                                    ),):Container(
-                                      height: 70,
-                                      width: 70,
-                                      padding: EdgeInsets.all(20),
-                                      child: Container(
-                                        height: 40,
-                                        width: 40,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-
-                                      onTap: (){
-                                        if(controller.cameraId==0){
-                                          initCamera(1);
-                                        }
-                                        else{
-                                          initCamera(0);
-                                        }
-                                        setState(() {
-
-                                        });
-                                      },
-                                      child: CircleAvatar(radius:30,backgroundColor:Colors.black.withOpacity(0.5),child: Icon(Icons.camera_front,size: 30,color: Colors.white,))),
-
-                                ],
-                              ),
-                            ],
-                          ),
+                          ],
                         ),
-                      ),
-                    )
-                  ]);
-            }):Scaffold(
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ]):Scaffold(
           //Done Button
 
           body: Stack(
@@ -224,65 +164,96 @@ class _CompleteRegistration5ScreenState extends State<CompleteRegistration5Scree
             children: [
 
               Container(
-                height: MediaQuery.of(context).size.height*0.87,
+                height: MediaQuery.of(context).size.height*0.84,
                 width: MediaQuery.of(context).size.width,
-                child: VideoPlayer(
-                    videoController!),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30)),
+
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: VideoPlayer(
+                      videoController!),
+                ),
               ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 40.0),
-                  child: Text(selectedVideoPromptMessage,style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
+                  child: Text("Upload for Verification",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
                 ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 0.0,bottom: 20),
-                  child: InkWell(
-                    onTap: () async {
-                      // when clicked on floating action button prompt to create user
-                      //Save Video Prompt to Backend
-                      ProgressDialog.show(context, "Uploading Video Prompt");
-
-                    /*  String destination= "VideoPrompt/"+selectedVideoPromptMessage;
-                      String videoPromptDownloadUrl = await ApiRepository.uploadFileAndGetDownloadUrl(destination,File(videoFile!.path));*/
-
-                      /*ProfileModal myNewProfileModal = widget.profileModal;
-
-                      for(int i = 0;i<myNewProfileModal.videoPrompts!.length;i++){
-
-                        if(myNewProfileModal.videoPrompts==""){
-                          myNewProfileModal.videoPrompts?.add({selectedVideoPromptMessage:videoPromptDownloadUrl});
-                        }
-                        if(myNewProfileModal.videoPrompts==null){
-                          myNewProfileModal.videoPrompts?.add({selectedVideoPromptMessage:videoPromptDownloadUrl});
-                        }
-
-                      }
-                      myNewProfileModal.videoPrompts!.add({selectedVideoPromptMessage:videoPromptDownloadUrl});
-                      print(myNewProfileModal.toJson());
-                      print(myNewProfileModal.videoPrompts.toString());
-                      await ApiRepository().updateProfileDetails(myNewProfileModal);*/
-                      ProgressDialog.hide();
-                      videoController?.dispose();
-                      Get.to(CompleteRegistration6Screen());
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: size.height * 0.09,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        border: Border.all(color: Colors.white, width: 2.0),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Center(
-                        child: Text(
-                            'Save & Upload Video',
-                            style:Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight:FontWeight.bold,color: Colors.white)
+                child: Container(
+                  margin: const EdgeInsets.only(top: 5.0,bottom: 0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 0.0,bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          onTap: (){
+                            videoController?.dispose();
+                            Get.back();
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: size.height * 0.09,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Theme.of(context).primaryColor, width: 0.0),
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Center(
+                              child: Icon(Icons.close,color: Theme.of(context).primaryColor,size: 40,)
+                            ),
+                          ),
                         ),
-                      ),
+                        InkWell(
+                          onTap: () async {
+                            // when clicked on floating action button prompt to create user
+                            //Save Video Prompt to Backend
+                            ProgressDialog.show(context, "Uploading Video\nfor Verification");
+                            await Future.delayed(Duration(seconds: 2));
+                                    /*  String destination= "VideoPrompt/"+selectedVideoPromptMessage;
+                              String videoPromptDownloadUrl = await FirebaseApiRepository.uploadFileAndGetDownloadUrl(destination,File(videoFile!.path));*/
+
+                                    /*ProfileModal myNewProfileModal = widget.profileModal;
+
+                              for(int i = 0;i<myNewProfileModal.videoPrompts!.length;i++){
+
+                                if(myNewProfileModal.videoPrompts==""){
+                                  myNewProfileModal.videoPrompts?.add({selectedVideoPromptMessage:videoPromptDownloadUrl});
+                                }
+                                if(myNewProfileModal.videoPrompts==null){
+                                  myNewProfileModal.videoPrompts?.add({selectedVideoPromptMessage:videoPromptDownloadUrl});
+                                }
+
+                              }
+                              myNewProfileModal.videoPrompts!.add({selectedVideoPromptMessage:videoPromptDownloadUrl});
+                              print(myNewProfileModal.toJson());
+                              print(myNewProfileModal.videoPrompts.toString());
+                              await FirebaseApiRepository().updateProfileDetails(myNewProfileModal);*/
+                            ProgressDialog.hide();
+                            videoController?.dispose();
+                            Get.to(CompleteRegistration6Screen());
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: size.height * 0.09,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              border: Border.all(color: Colors.white, width: 0.0),
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Center(
+                                child: Icon(Icons.check_rounded,color: Colors.white,size: 40,)
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -466,10 +437,10 @@ class _CompleteRegistration5ScreenState extends State<CompleteRegistration5Scree
   }
 
 
-  Future<List<String>> getVideoPromptQuestions() async {
-   // List<String> messages = await ApiRepository().fetchVideoPromptQuestions();
+  /*Future<List<String>> getVideoPromptQuestions() async {
+   // List<String> messages = await FirebaseApiRepository().fetchVideoPromptQuestions();
     List<String> messages = ["asas","asas"];
     selectedVideoPromptMessage = messages[0];
     return messages;
-  }
+  }*/
 }

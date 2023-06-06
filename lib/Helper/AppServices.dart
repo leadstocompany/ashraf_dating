@@ -1,4 +1,5 @@
 import 'package:fluid_dating_app/helper/themes.dart';
+import 'package:fluid_dating_app/shared_preference_keys_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,4 +41,25 @@ class AppServices{
 
   }
 
+}
+
+
+class SharedPrefs {
+  static SharedPreferences? _sharedPrefs;
+
+  factory SharedPrefs() => SharedPrefs._internal();
+
+  SharedPrefs._internal();
+
+  Future<void> init() async {
+    _sharedPrefs ??= await SharedPreferences.getInstance();
+  }
+
+  String get username => _sharedPrefs?.getString(myStrign) ?? "";
+
+  set username(String value) {
+    _sharedPrefs?.setString(myStrign, value);
+  }
+
+// ...
 }

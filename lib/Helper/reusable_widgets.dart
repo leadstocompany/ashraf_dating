@@ -137,7 +137,7 @@ class ReusableWidgets{
       bool isMandatory,
       Function()? onSuffixIconTap,
       bool disabled,
-      [Icon? prefixIcon,int? maxLines,Function()? onTap]
+      [Icon? prefixIcon,int? maxLines,Function()? onTap,bool? readOnly]
       ){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,6 +152,7 @@ class ReusableWidgets{
         TextField(
           enabled: !disabled,
           onTap: onTap,
+          readOnly: readOnly??false,
           obscureText: obscureText!,
           controller: textEditingController,
           cursorColor: Theme.of(myContext).primaryColor,
@@ -230,6 +231,7 @@ class ReusableWidgets{
       fontWeight: FontWeight.w900
     ),textAlign:isAlignedCenter? TextAlign.center:TextAlign.left,);
   }
+
   FluidBoldSubHeaderText(String s,BuildContext context,bool isAlignedCenter) {
     return Text(s,style: Theme.of(context).textTheme.headlineSmall?.copyWith(
         fontWeight: FontWeight.w900
@@ -239,6 +241,13 @@ class ReusableWidgets{
   FluidBoldSmallSubHeaderText(String s,BuildContext context,bool isAlignedCenter) {
     return Text(s,style: Theme.of(context).textTheme.labelLarge?.copyWith(
         fontWeight: FontWeight.w900
+    ),textAlign:isAlignedCenter? TextAlign.center:TextAlign.left,);
+  }
+
+  FluidBoldMediumSubHeaderText(String s,BuildContext context,bool isAlignedCenter) {
+    return Text(s,style:TextStyle(
+        fontWeight: FontWeight.w900,
+            fontSize: 24,color: Colors.black
     ),textAlign:isAlignedCenter? TextAlign.center:TextAlign.left,);
   }
 
@@ -349,6 +358,9 @@ class _MultiSelectState extends State<MultiSelect> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return AlertDialog(
       title: const Text('Select Topics'),
       content: SingleChildScrollView(

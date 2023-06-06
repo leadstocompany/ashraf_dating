@@ -1,25 +1,38 @@
-import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
-import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/BioAndInterestScreen.dart';
-import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/FilterByScreenForRegistration.dart';
+import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration3Screen.dart';
+import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration7Screen.dart';
 import 'package:fluid_dating_app/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'CompleteRegistration3Screen.dart';
-import 'CompleteRegistration4Screen.dart';
+import '../../../Helper/reusable_widgets.dart';
+import '../../home_screen_tabs/profile_editing_screens/EditProfileScreen.dart';
+import 'BioAndInterestScreen.dart';
 
-class CompleteRegistration2Screen extends StatefulWidget {
-  const CompleteRegistration2Screen({Key? key}) : super(key: key);
+class FilterByScreenForRegistration extends StatefulWidget {
+  const FilterByScreenForRegistration({Key? key}) : super(key: key);
 
   @override
-  State<CompleteRegistration2Screen> createState() => _CompleteRegistration2ScreenState();
+  State<FilterByScreenForRegistration> createState() => _FilterByScreenForRegistrationState();
 }
 
-class _CompleteRegistration2ScreenState extends State<CompleteRegistration2Screen> {
+class _FilterByScreenForRegistrationState extends State<FilterByScreenForRegistration> {
+  TextEditingController bioTextEditingController = TextEditingController();
+  TextEditingController dreamsTextEditingController = TextEditingController();
 
+  RangeValues distanceRangeValues = const RangeValues(0, 70);
+  RangeValues ageRangeValues = const RangeValues(18, 60);
 
-  TextEditingController emailTextEditingController = TextEditingController();
+  List<String> _selectedItems = [];
+  List<String> _selectedGenders = [];
+
+  TextEditingController sexualIdentityPreferenceTextEditingController  = TextEditingController();
+
+  List<String> relationShipGoals = [
+    "Casual",
+    "Long term",
+    "Looking for Marriage"
+  ];
 
   List<String> genderPreferences = [
     "Male",
@@ -36,91 +49,6 @@ class _CompleteRegistration2ScreenState extends State<CompleteRegistration2Scree
     "Other"
   ];
 
-
-
-  TextEditingController sexualIdentityPreferenceTextEditingController = TextEditingController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    sexualIdentityPreferenceTextEditingController.text = "Please Select...";
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    var size = MediaQuery.of(context).size;
-
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,iconTheme: IconThemeData(color: primaryColorOfApp),),
-
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 36),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: size.height*0.02,),
-                ReusableWidgets().FluidHeaderText("Please Select Your",context),
-                SizedBox(height: size.height*0.05,),
-                Text("Sexual Identity Preferences"),
-                Visibility(
-                    visible: _selectedItems.length>0,
-                    child: SizedBox(height: size.height*0.01,)),
-                Wrap(
-                  children: _selectedItems
-                      .map((e) => Container(
-                    padding: EdgeInsets.only(right: 2),
-                    child: Chip(
-                      backgroundColor: primaryColorOfApp,
-                      label: Text(e,style: TextStyle(color: Colors.white,fontSize: 12),),
-                    ),
-                  ))
-                      .toList(),
-                ),
-
-
-                ReusableWidgets().FluidTextField("", "", context, sexualIdentityPreferenceTextEditingController,false,false,null,false,Icon(Icons.add_circle_outline,color: primaryColorOfApp,),null,(){_showMultiSelect();},true),
-                SizedBox(height: size.height*0.05,),
-                // display selected items                SizedBox(height: size.height*0.05,),
-                Text("Gender Preferences"),
-                Visibility(
-                    visible: _selectedGenders.length>0,
-                    child: SizedBox(height: size.height*0.01,)),
-                Wrap(
-                  children: _selectedGenders
-                      .map((e) => Container(
-                    padding: EdgeInsets.only(right: 2),
-                    child: Chip(
-                      backgroundColor: primaryColorOfApp,
-                      label: Text(e,style: TextStyle(color: Colors.white,fontSize: 12),),
-                    ),
-                  ))
-                      .toList(),
-                ),
-
-                ReusableWidgets().FluidTextField("", "", context, sexualIdentityPreferenceTextEditingController,false,false,null,false,Icon(Icons.add_circle_outline,color: primaryColorOfApp,),null,(){_showGenderMultiSelect();},true),
-
-                SizedBox(height: size.height*0.3,),
-                ReusableWidgets().FluidButton("NEXT", (){
-                  Get.to(CompleteRegistration3Screen());
-                }, context),
-                SizedBox(height: size.height*0.05,),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
-
-  }
-
-  List<String> _selectedItems = [];
-  List<String> _selectedGenders = [];
 
   void _showMultiSelect() async {
 
@@ -374,5 +302,189 @@ class _CompleteRegistration2ScreenState extends State<CompleteRegistration2Scree
         }*/
       });
     }
+  }
+
+  final List<Data> _choiceChipsList = [
+    Data("Photography", Colors.green),
+    Data("Music", Colors.blue),
+    Data("Book", Colors.deepOrange),
+    Data("Gaming", Colors.cyan),
+    Data("Fashion", Colors.pink),
+    Data("Architecture", Colors.pink),
+  ];
+
+  List<String> selectedIntrests = [];
+
+  int? _selectedIndex;
+
+
+
+  String? relationShipGoal;
+  String? genderPreference;
+  String? sexualIdentityPreference;
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,iconTheme: IconThemeData(color: primaryColorOfApp),),
+        body: Container(
+          padding: EdgeInsets.symmetric(horizontal: 36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: size.height*0.02,),
+              ReusableWidgets().FluidHeaderText("Filter By",context),
+              SizedBox(height: size.height*0.05,),
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    ReusableWidgets().FluidDropDown(
+                        context,
+                        "Relationship goal","Please Select...",relationShipGoals,(val){
+                      relationShipGoal = val;
+                      setState(() {
+
+                      });
+                    },relationShipGoal
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text("Choose One",style:Theme.of(context).textTheme.titleSmall,),
+                    ),
+                    SizedBox(height: size.height*0.04,),
+                    Text("Sexual Identity Preferences"),
+                    Visibility(
+                        visible: _selectedItems.length>0,
+                        child: SizedBox(height: size.height*0.01,)),
+                    Wrap(
+                      children: _selectedItems
+                          .map((e) => Container(
+                        padding: EdgeInsets.only(right: 2),
+                        child: Chip(
+                          backgroundColor: primaryColorOfApp,
+                          label: Text(e,style: TextStyle(color: Colors.white,fontSize: 12),),
+                        ),
+                      ))
+                          .toList(),
+                    ),
+                    ReusableWidgets().FluidTextField("", "", context, sexualIdentityPreferenceTextEditingController,false,false,null,false,Icon(Icons.add_circle_outline,color: primaryColorOfApp,),null,(){_showMultiSelect();},),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text("Choose Multiple",style:Theme.of(context).textTheme.titleSmall,),
+                    ),
+                    SizedBox(height: size.height*0.04,),
+                    // display selected items                SizedBox(height: size.height*0.05,),
+                    Text("Gender Preferences"),
+                    Visibility(
+                        visible: _selectedGenders.length>0,
+                        child: SizedBox(height: size.height*0.01,)),
+
+                    Wrap(
+                      children: _selectedGenders
+                          .map((e) => Container(
+                        padding: EdgeInsets.only(right: 2),
+                        child: Chip(
+                          backgroundColor: primaryColorOfApp,
+                          label: Text(e,style: TextStyle(color: Colors.white,fontSize: 12),),
+                        ),
+                      ))
+                          .toList(),
+                    ),
+
+                    ReusableWidgets().FluidTextField("", "", context, sexualIdentityPreferenceTextEditingController,false,false,null,false,Icon(Icons.add_circle_outline,color: primaryColorOfApp,),null,(){_showGenderMultiSelect();},),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text("Choose Multiple",style:Theme.of(context).textTheme.titleSmall,),
+                    ),
+                    SizedBox(height: size.height*0.06,),
+                    Text("Age",style:Theme.of(context).textTheme.titleMedium,),
+                    RangeSlider(
+                      values: ageRangeValues,
+                      min: 0,
+                      max: 100,
+                      activeColor: Colors.purple,
+                      inactiveColor: Colors.purple.shade100,
+                      divisions: 10,
+                      labels: RangeLabels(
+                        ageRangeValues.start.round().toString(),
+                        ageRangeValues.end.round().toString(),
+                      ),
+                      onChanged: (RangeValues values) {
+                        setState(() {
+                          ageRangeValues = values;
+                        });
+                      },
+                    ),
+                    SizedBox(height: size.height*0.06,),
+                    Text("Distance",style:Theme.of(context).textTheme.titleMedium,),
+                    RangeSlider(
+                      values: distanceRangeValues,
+                      min: 0,
+                      max: 100,
+                      divisions: 10,
+                      activeColor: Colors.indigo,
+                      inactiveColor: Colors.indigo.shade100,
+                      labels: RangeLabels(
+                        distanceRangeValues.start.round().toString(),
+                        distanceRangeValues.end.round().toString(),
+                      ),
+                      onChanged: (RangeValues values) {
+                        setState(() {
+                          distanceRangeValues = values;
+                        });
+                      },
+                    ),
+                    SizedBox(height: size.height*0.05,),
+                    ReusableWidgets().FluidButton("NEXT", (){
+                      Get.to(BioAndInterestScreen());
+                    }, context),
+                    SizedBox(height: size.height*0.05,),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> choiceChips() {
+    List<Widget> chips = [];
+
+    for (int i = 0; i < _choiceChipsList.length; i++) {
+      Widget item = Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: ChoiceChip(
+          label: Text(_choiceChipsList[i].label),
+          labelStyle: TextStyle(color: selectedIntrests.contains(_choiceChipsList[i].label)?Colors.white:Colors.black),
+          shape: StadiumBorder(side: BorderSide(color: Theme.of(context).primaryColor)),
+          //backgroundColor: _choiceChipsList[i].color,
+          backgroundColor: Colors.white,
+          selected: selectedIntrests.contains(_choiceChipsList[i].label),
+          selectedColor: Theme.of(context).primaryColor,
+          onSelected: (bool value) {
+            setState(() {
+              _selectedIndex = i;
+
+              if(selectedIntrests.contains(_choiceChipsList[i].label)){
+                selectedIntrests.remove(_choiceChipsList[i].label);
+              }
+              else{
+                selectedIntrests.add(_choiceChipsList[i].label);
+              }
+
+
+            });
+          },
+        ),
+      );
+      chips.add(item);
+    }
+    return chips;
   }
 }

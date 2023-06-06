@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
+import '../globals.dart';
+
 class MessageScreen extends StatefulWidget {
   const MessageScreen({Key? key}) : super(key: key);
 
@@ -43,10 +45,10 @@ class _MessageScreenState extends State<MessageScreen> {
                 Expanded(child: TextField(
 
                   controller: messageTextEditingController,
-                  cursorColor: Theme.of(context).primaryColor,
+                  cursorColor: customSelectionColorOfApp,
                   decoration: InputDecoration(
-                    fillColor: Theme.of(context).primaryColor,
-                    suffixIconColor: Theme.of(context).primaryColor,
+                    fillColor: customSelectionColorOfApp,
+                    suffixIconColor: customSelectionColorOfApp,
                     suffixIcon: IconButton(onPressed: (){},
                         icon: Icon(Icons.send)),
                     enabledBorder: OutlineInputBorder(
@@ -61,7 +63,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       // width: 0.0 produces a thin "hairline" border
-                        borderSide:  BorderSide(color: Theme.of(context).primaryColor, width: 1),
+                        borderSide:  BorderSide(color: customSelectionColorOfApp, width: 1),
                         borderRadius: BorderRadius.circular(15)
                     ),
                     border: OutlineInputBorder(
@@ -98,7 +100,7 @@ class _MessageScreenState extends State<MessageScreen> {
                   },
                   child: Icon(
                     Icons.arrow_back,
-                    color: Theme.of(context).primaryColor,
+                    color: customSelectionColorOfApp,
                   ),
                 ),
                 SizedBox(width: 10,),
@@ -162,7 +164,7 @@ class _MessageScreenState extends State<MessageScreen> {
               },
               child: Icon(
                 Icons.arrow_back,
-                color: Theme.of(context).primaryColor,
+                color: customSelectionColorOfApp,
               ),
             ),
             centerTitle: false,
@@ -274,7 +276,7 @@ class _MessageScreenState extends State<MessageScreen> {
             children: [
               Text("2:55 PM",style: TextStyle(fontSize: 13,color: Colors.grey),),
               SizedBox(width: 2,),
-              Icon(Icons.done_all,size:15,color:Theme.of(context).primaryColor ,)
+              Icon(Icons.done_all,size:15,color:customSelectionColorOfApp ,)
             ],
           )
         ],

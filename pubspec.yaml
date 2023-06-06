@@ -69,6 +69,8 @@ dependencies:
   video_player: ^2.6.1
   geolocator: ^8.2.0
   geocoding: ^2.0.4
+  animate_gradient: ^0.0.2+1
+  share_plus: ^7.0.1
 
 dev_dependencies:
   flutter_test:

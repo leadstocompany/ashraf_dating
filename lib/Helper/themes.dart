@@ -6,7 +6,7 @@ class Themes{
   ThemeData fluidsLightTheme = ThemeData(
     primaryColor: Color(0xffC3348A),
     scaffoldBackgroundColor: Colors.white,
-    appBarTheme: AppBarTheme(backgroundColor: Color(0xffC3348A),foregroundColor:Colors.white),
+    appBarTheme: AppBarTheme(backgroundColor: Color(0xff873F9F),foregroundColor:Colors.white),
       textTheme: GoogleFonts.ralewayTextTheme().copyWith().apply(displayColor: Colors.black),
   );
 

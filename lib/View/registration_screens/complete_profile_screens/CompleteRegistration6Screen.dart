@@ -1,5 +1,6 @@
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
 import 'package:fluid_dating_app/View/HomeScreenTab.dart';
+import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/FilterByScreenForRegistration.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,7 +34,7 @@ class _CompleteRegistration6ScreenState extends State<CompleteRegistration6Scree
           ),
           InkWell(
             onTap: (){
-              Get.to(HomeScreenTab());
+              Get.to(FilterByScreenForRegistration());
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 36),

@@ -130,19 +130,13 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Row(
               children: [
-                CircleAvatar(backgroundImage: NetworkImage("https://flxt.tmsimg.com/assets/283805_v9_ba.jpg"),radius: 40,),
+                CircleAvatar(backgroundImage: NetworkImage("https://flxt.tmsimg.com/assets/283805_v9_ba.jpg"),radius: 25,),
                 SizedBox(width: 20,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ReusableWidgets().FluidParagraphText("Good Morning ,", context),
-                    ReusableWidgets().FluidBoldHeaderText("Megan Fox", context, false)
-                  ],
-                )
+                ReusableWidgets().FluidBoldHeaderText("Megan Fox", context, false)
               ],
             ),
-            Padding(padding: EdgeInsets.symmetric(vertical: size.height*0.01),
-            child: ReusableWidgets().FluidBoldSmallSubHeaderText("Your Matches", context, false),),
+            Padding(padding: EdgeInsets.only(bottom: size.height*0.01,top: size.height*0.03),
+            child: ReusableWidgets().FluidBoldMediumSubHeaderText("Your Matches", context, false),),
             Container(
               height: size.height*0.15,
               child: ListView.builder(
@@ -171,11 +165,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
             ),*/
             Container(
-              height: size.height*0.03,
+              height: size.height*0.01,
               margin: EdgeInsets.symmetric(vertical: size.height*0.01),
             ),
             Flexible(
-
               child: ListView.separated(
                 shrinkWrap: true,
                 separatorBuilder: (c,i){

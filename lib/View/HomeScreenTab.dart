@@ -17,7 +17,7 @@ class HomeScreenTab extends StatefulWidget {
 
 class _HomeScreenTabState extends State<HomeScreenTab> {
 
-  int pageIndex = 1;
+  int pageIndex = 2;
 
   List pages = [];
 
@@ -73,8 +73,8 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
     }*/
 
     return Container(
-      height: MediaQuery.of(context).size.height*0.086,
-      padding: EdgeInsets.symmetric(vertical: 5),
+      height: 75,
+      padding: EdgeInsets.symmetric(vertical: 7),
       decoration: BoxDecoration(
         color: Get.isDarkMode ?Colors.black : Colors.white,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
@@ -98,8 +98,10 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
             },
             child: Column(
                   children: [
-                    Icon(Icons.person_outline_outlined, color:pageIndex == 0?primaryColorOfApp:Colors.grey , size: 30,),
-                    Text("Profile",style: TextStyle(color: pageIndex == 0?primaryColorOfApp:Colors.grey),)
+                    SizedBox(height: 5,),
+                    pageIndex == 0?Image.asset("assets/profile_selected.png"):Image.asset("assets/profile_unselected.png"),
+                    SizedBox(height: 5,),
+                    Text("Profile",style: TextStyle(color: pageIndex == 0?customSelectionColorOfApp:Colors.grey),)
                   ],
                 )
           ),
@@ -112,8 +114,10 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
               },
               child: Column(
                 children: [
-                  Icon(Icons.chat_bubble_outline_outlined, color:pageIndex == 1?primaryColorOfApp:Colors.grey , size: 30,),
-                  Text("Chats",style: TextStyle(color: pageIndex == 1?primaryColorOfApp:Colors.grey),)
+                  SizedBox(height: 5,),
+                  pageIndex == 1?Image.asset("assets/chats_selected.png"):Image.asset("assets/chats_unselected.png"),
+                  SizedBox(height: 8,),
+                  Text("Chats",style: TextStyle(color: pageIndex == 1?customSelectionColorOfApp:Colors.grey),)
                 ],
               )
           ),
@@ -126,8 +130,10 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
               },
               child: Column(
                 children: [
-                  Icon(Icons.favorite_border_outlined, color:pageIndex == 2?primaryColorOfApp:Colors.grey , size: 30,),
-                  Text("Notifications",style: TextStyle(color: pageIndex == 2?primaryColorOfApp:Colors.grey),)
+                  SizedBox(height: 5,),
+                  pageIndex == 2?Image.asset("assets/discover_selected.png"):Image.asset("assets/discover_unselected.png"),
+                  SizedBox(height: 5,),
+                  Text("Discover",style: TextStyle(color: pageIndex == 2?customSelectionColorOfApp:Colors.grey),)
                 ],
               )
           ),
@@ -140,8 +146,10 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
               },
               child: Column(
                 children: [
-                  Icon(Icons.home_outlined, color:pageIndex == 3?primaryColorOfApp:Colors.grey , size: 30,),
-                  Text("Home",style: TextStyle(color: pageIndex == 3?primaryColorOfApp:Colors.grey),)
+                  SizedBox(height: 5,),
+                  pageIndex == 3?Image.asset("assets/home_selected.png"):Image.asset("assets/home_unselected.png"),
+                  SizedBox(height: 5,),
+                  Text("Home",style: TextStyle(color: pageIndex == 3?customSelectionColorOfApp:Colors.grey),)
                 ],
               )
           ),

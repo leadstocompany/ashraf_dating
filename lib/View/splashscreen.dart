@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:animate_gradient/animate_gradient.dart';
 import 'package:fluid_dating_app/View/HomeScreenTab.dart';
 import 'package:fluid_dating_app/View/registration_screens/SignUpOrLoginScreen.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,6 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
   late final AnimationController _controller;
 
-  SharedPreferences? prefs;
-
-
-
-
   @override
   void initState() {
     super.initState();
@@ -33,13 +29,9 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     )..addStatusListener((AnimationStatus status) {
       if (status == AnimationStatus.completed){
         SchedulerBinding.instance.addPostFrameCallback((_){
-
          loadProperScreen();
-
-
         });
       }
-
     });
     _controller.forward();
 
@@ -53,70 +45,26 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
     return Scaffold(
       backgroundColor: Colors.purpleAccent,
-      body: Stack(
-        children: [
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Transform.translate(
-                offset: Offset(0, 10 * _controller.value),
-                child: Image.asset(
-                    "assets/top_left.png"
-                ),
-              );
-            },
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(0, 10 * _controller.value),
-                  child: Image.asset(
-                      "assets/top_right.png"
-                  ),
-                );
-              },
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(0, 10 * _controller.value),
-                  child: Image.asset(
-                      "assets/bottom_right.png"
-                  ),
-                );
-              },
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(0, 10 * _controller.value),
-                  child: Image.asset(
-                      "assets/middle_left.png"
-                  ),
-                );
-              },
-            ),
-          ),
-          Container(
-            decoration:  BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.purple.withOpacity(0.8), Colors.blue.withOpacity(0.8)],
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                )),
-          ),
-          Center(
+      body:AnimateGradient(
+        primaryBegin: Alignment.topLeft,
+        duration: Duration(seconds: 3),
+        /*primaryEnd: Alignment.bottomLeft,
+        secondaryBegin: Alignment.bottomLeft,
+        secondaryEnd: Alignment.topRight,*/
+        primaryColors: const [
+          Color(0xff873F9F),
+          Color(0xffFFADED),
+          Color(0xff9A69E1),
+          Colors.white,
+        ],
+        secondaryColors: const [
+          Color(0xffFFADED),
+          Color(0xff98D2EB),
+          Color(0xff9A69E1),
+          Colors.blue,
+        ],
+        child:Container(
+          child:Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -128,39 +76,28 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   ),
                 ),
                 Text("Connecting hearts\nbeyond the binary",style: GoogleFonts.roboto(
-                textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.w400,fontSize: 24),
+                  textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.w400,fontSize: 24),
                 )),
                 SizedBox(height: size.height*0.3,),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 48,vertical: 14),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(10)
+                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(10)
                   ),
                   child: Text("LET’S GET\nSTARTED",style: GoogleFonts.raleway(
-                  textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.w900,fontSize: 13),
-                ),),
+                    textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.w900,fontSize: 13),
+                  ),),
                 )
               ],
             ),
           ),
-        ],
+          height: size.height,width: size.width,),
       ),
     );
   }
 
   Future<void> loadProperScreen() async {
-    prefs = await SharedPreferences.getInstance();
-    if(prefs?.containsKey("registered")??false){
-      if(prefs?.getBool("registered")??false){
-        Get.to(HomeScreenTab());
-      }
-      else{
-        Get.to(SignUpOrLoginScreen());
-      }
-    }
-    else{
-      Get.to(SignUpOrLoginScreen());
-    }
+    Get.to(SignUpOrLoginScreen());
   }
 }

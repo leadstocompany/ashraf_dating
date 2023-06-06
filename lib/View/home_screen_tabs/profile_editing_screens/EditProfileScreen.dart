@@ -5,11 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluid_dating_app/Helper/app_helper.dart';
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
-import 'package:fluid_dating_app/Network/api_repository.dart';
+import 'package:fluid_dating_app/Network/api_repository_for_firebase.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/HomeScreen.dart';
 import 'package:fluid_dating_app/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
@@ -75,6 +76,265 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     "Other"
   ];
 
+  List<String> _selectedItems = [];
+  List<String> _selectedGenders = [];
+
+  TextEditingController sexualIdentityPreferenceTextEditingController  = TextEditingController();
+
+  void _showMultiSelect() async {
+
+    _selectedItems = [];
+    // a list of selectable items
+    // these items can be hard-coded or dynamically fetched from a database/API
+    final List<String> items = sexualIdentityPreferences;
+
+
+// This function is triggered when a checkbox is checked or unchecked
+    void _itemChange(String itemValue, bool isSelected) {
+      setState(() {
+        if (isSelected) {
+          _selectedItems.add(itemValue);
+        } else {
+          _selectedItems.remove(itemValue);
+        }
+      });
+    }
+
+
+    final List<String>? results = await showModalBottomSheet(
+
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(50.0),
+              topLeft: Radius.circular(50.0),
+            )),
+        context: context,
+        builder: (context) {
+
+          var size = MediaQuery.of(context).size;
+
+          return StatefulBuilder(
+              builder: (context,innerState) {
+                return Wrap(
+                  children: [
+                    Container(
+
+                      padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                      child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("Select Your Sexual Preferences",
+                                  style: GoogleFonts.raleway(
+                                      textStyle:
+                                      Theme.of(context).textTheme.titleLarge,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                              SingleChildScrollView(
+                                child: ListBody(
+                                  children: items
+                                      .map((item) => CheckboxListTile(
+                                    activeColor: customSelectionColorOfApp,
+                                    value: _selectedItems.contains(item),
+                                    title: Text(item),
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    onChanged: (isChecked) {
+                                      if(isChecked!){
+                                        if(!_selectedItems.contains(item)){
+                                          _selectedItems.add(item);
+                                        }
+                                      }
+                                      else{
+                                        _selectedItems.remove(item);
+                                      }
+                                      innerState(() {
+
+                                      });
+                                    },
+                                  ))
+                                      .toList(),
+                                ),
+                              ),
+                              SizedBox(height: 20,),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context, _selectedItems);
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.8,
+                                  height: size.height * 0.05,
+                                  decoration: BoxDecoration(
+                                    color: customSelectionColorOfApp,
+
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Save',
+                                      style: GoogleFonts.poppins(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20,)
+                            ],
+                          )),
+                    ),
+                  ],
+                );
+              }
+          );
+        });
+
+    /*final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MultiSelect(items: items);
+      },
+    );*/
+
+    // Update UI
+    if (results != null) {
+      setState(() {
+        _selectedItems = results;
+        print(_selectedItems);
+        //langaugeTextEditingController.clear();
+        /*results.forEach((element) {
+          langaugeTextEditingController.text = element+","+langaugeTextEditingController.text;
+        });
+        if (langaugeTextEditingController.text != null && langaugeTextEditingController.text.length > 0) {
+          langaugeTextEditingController.text = langaugeTextEditingController.text.substring(0, langaugeTextEditingController.text.length - 1);
+        }*/
+      });
+    }
+  }
+
+  void _showGenderMultiSelect() async {
+
+    _selectedGenders = [];
+    // a list of selectable items
+    // these items can be hard-coded or dynamically fetched from a database/API
+    final List<String> items = sexualIdentityPreferences;
+
+
+
+    final List<String>? results = await showModalBottomSheet(
+
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(50.0),
+              topLeft: Radius.circular(50.0),
+            )),
+        context: context,
+        builder: (context) {
+
+          var size = MediaQuery.of(context).size;
+
+          return StatefulBuilder(
+              builder: (context,innerState) {
+                return Wrap(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                      child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("Select Gender Preferences",
+                                  style: GoogleFonts.raleway(
+                                      textStyle:
+                                      Theme.of(context).textTheme.titleLarge,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                              SingleChildScrollView(
+                                child: ListBody(
+                                  children: items
+                                      .map((item) => CheckboxListTile(
+                                    activeColor: customSelectionColorOfApp,
+                                    value: _selectedGenders.contains(item),
+                                    title: Text(item),
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    onChanged: (isChecked) {
+                                      if(isChecked!){
+                                        if(!_selectedGenders.contains(item)){
+                                          _selectedGenders.add(item);
+                                        }
+                                      }
+                                      else{
+                                        _selectedGenders.remove(item);
+                                      }
+                                      innerState(() {
+
+                                      });
+                                    },
+                                  ))
+                                      .toList(),
+                                ),
+                              ),
+                              SizedBox(height: 20,),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context, _selectedGenders);
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.8,
+                                  height: size.height * 0.05,
+                                  decoration: BoxDecoration(
+                                    color: customSelectionColorOfApp,
+
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Save',
+                                      style: GoogleFonts.poppins(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20,)
+                            ],
+                          )),
+                    ),
+                  ],
+                );
+              }
+          );
+        });
+
+    /*final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MultiSelect(items: items);
+      },
+    );*/
+
+    // Update UI
+    if (results != null) {
+      setState(() {
+        _selectedGenders = results;
+        print(_selectedGenders);
+        //langaugeTextEditingController.clear();
+        /*results.forEach((element) {
+          langaugeTextEditingController.text = element+","+langaugeTextEditingController.text;
+        });
+        if (langaugeTextEditingController.text != null && langaugeTextEditingController.text.length > 0) {
+          langaugeTextEditingController.text = langaugeTextEditingController.text.substring(0, langaugeTextEditingController.text.length - 1);
+        }*/
+      });
+    }
+  }
+
   RangeValues distanceRangeValues = const RangeValues(0, 70);
   RangeValues ageRangeValues = const RangeValues(18, 60);
 
@@ -114,10 +374,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           PhotoAlbumGrid(),
           SizedBox(height: 10,),
           ReusableWidgets().FluidNoteText("Hold and Drag to adjust the order", context),
-          SizedBox(height: 10,),
+          SizedBox(height: 20,),
           ReusableWidgets().FluidBoldSubHeaderText("Add Bio", context, false),
           ReusableWidgets().FluidTextField("", "", context, bioTextEditingController, false, false, () => null, false,null,7),
-          SizedBox(height: 20,),
+          SizedBox(height: 40,),
           ReusableWidgets().FluidBoldSubHeaderText("Your interests", context, false),
           SizedBox(height: 0,),
           ReusableWidgets().FluidNoteText("You Can Select Multiple", context),
@@ -127,7 +387,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             direction: Axis.horizontal,
             children: choiceChips(),
           ),
-          SizedBox(height: 20,),
+          SizedBox(height: 40,),
           ReusableWidgets().FluidBoldSubHeaderText("Filter by :", context, false),
           SizedBox(height: 10,),
           ReusableWidgets().FluidDropDown(
@@ -140,60 +400,87 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           },relationShipGoal
           ),
           SizedBox(height: 10,),
-          ReusableWidgets().FluidDropDown(
-              context,
-              "Sexual identity preference","Please Select...",sexualIdentityPreferences,(val){
-            sexualIdentityPreference = val;
-            setState(() {});
-          },sexualIdentityPreference
+          Text("Sexual Identity Preferences"),
+          Visibility(
+              visible: _selectedItems.length>0,
+              child: SizedBox(height: size.height*0.01,)),
+          Wrap(
+            children: _selectedItems
+                .map((e) => Container(
+              padding: EdgeInsets.only(right: 2),
+              child: Chip(
+                backgroundColor: customSelectionColorOfApp,
+                label: Text(e,style: TextStyle(color: Colors.white,fontSize: 12),),
+              ),
+            ))
+                .toList(),
           ),
+          ReusableWidgets().FluidTextField("", "", context, sexualIdentityPreferenceTextEditingController,false,false,null,false,Icon(Icons.add_circle_outline,color: customSelectionColorOfApp,),null,(){_showMultiSelect();},),
           SizedBox(height: 10,),
-          ReusableWidgets().FluidDropDown(
-              context,
-              "Gender preference","Please Select...",genderPreferences,(val){
-            genderPreference = val;
-            setState(() {
-
-            });
-          },genderPreference
+          // display selected items                SizedBox(height: size.height*0.05,),
+          Text("Gender Preferences"),
+          Visibility(
+              visible: _selectedGenders.length>0,
+              child: SizedBox(height: size.height*0.01,)),
+          Wrap(
+            children: _selectedGenders
+                .map((e) => Container(
+              padding: EdgeInsets.only(right: 2),
+              child: Chip(
+                backgroundColor: customSelectionColorOfApp,
+                label: Text(e,style: TextStyle(color: Colors.white,fontSize: 12),),
+              ),
+            ))
+                .toList(),
           ),
+          ReusableWidgets().FluidTextField("", "", context, sexualIdentityPreferenceTextEditingController,false,false,null,false,Icon(Icons.add_circle_outline,color: customSelectionColorOfApp,),null,(){_showGenderMultiSelect();},),
           SizedBox(height: 10,),
           Text("Age",style:Theme.of(context).textTheme.titleMedium,),
-          RangeSlider(
-            values: ageRangeValues,
-            min: 0,
-            max: 100,
-            activeColor: Colors.purple,
-            inactiveColor: Colors.purple.shade100,
-            divisions: 10,
-            labels: RangeLabels(
-              ageRangeValues.start.round().toString(),
-              ageRangeValues.end.round().toString(),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
             ),
-            onChanged: (RangeValues values) {
-              setState(() {
-                ageRangeValues = values;
-              });
-            },
+            child: RangeSlider(
+              values: ageRangeValues,
+              min: 0,
+              max: 100,
+              activeColor: Colors.purple,
+              inactiveColor: Colors.purple.shade100,
+              divisions: 10,
+              labels: RangeLabels(
+                ageRangeValues.start.round().toString()+" Yrs",
+                ageRangeValues.end.round().toString()+" Yrs",
+              ),
+              onChanged: (RangeValues values) {
+                setState(() {
+                  ageRangeValues = values;
+                });
+              },
+            ),
           ),
           SizedBox(height: 10,),
           Text("Distance",style:Theme.of(context).textTheme.titleMedium,),
-          RangeSlider(
-            values: distanceRangeValues,
-            min: 0,
-            max: 100,
-            divisions: 10,
-            activeColor: Colors.indigo,
-            inactiveColor: Colors.indigo.shade100,
-            labels: RangeLabels(
-              distanceRangeValues.start.round().toString(),
-              distanceRangeValues.end.round().toString(),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
             ),
-            onChanged: (RangeValues values) {
-              setState(() {
-                distanceRangeValues = values;
-              });
-            },
+            child: RangeSlider(
+              values: distanceRangeValues,
+              min: 0,
+              max: 100,
+              divisions: 10,
+              activeColor: Colors.indigo,
+              inactiveColor: Colors.indigo.shade100,
+              labels: RangeLabels(
+                distanceRangeValues.start.round().toString()+" KM",
+                distanceRangeValues.end.round().toString()+" KM",
+              ),
+              onChanged: (RangeValues values) {
+                setState(() {
+                  distanceRangeValues = values;
+                });
+              },
+            ),
           )
 
         ],
@@ -210,15 +497,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: ChoiceChip(
           label: Text(_choiceChipsList[i].label),
           labelStyle: TextStyle(color: selectedIntrests.contains(_choiceChipsList[i].label)?Colors.white:Colors.black),
-          shape: StadiumBorder(side: BorderSide(color: Theme.of(context).primaryColor)),
+          shape: StadiumBorder(side: BorderSide(color: customSelectionColorOfApp)),
           //backgroundColor: _choiceChipsList[i].color,
           backgroundColor: Colors.white,
           selected: selectedIntrests.contains(_choiceChipsList[i].label),
-          selectedColor: Theme.of(context).primaryColor,
+          selectedColor: customSelectionColorOfApp,
           onSelected: (bool value) {
             setState(() {
               _selectedIndex = i;
-              selectedIntrests.add(_choiceChipsList[i].label);
+              if(selectedIntrests.contains(_choiceChipsList[i].label)){
+                selectedIntrests.remove(_choiceChipsList[i].label);
+              }
+              else{
+                selectedIntrests.add(_choiceChipsList[i].label);
+              }
             });
           },
         ),
@@ -274,7 +566,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     destinationForImage = id+'/$profileId/'+(uploadingPhotoNumber.toString()??"ERROR");
 
 
-    task = ApiRepository.uploadFile(destinationForImage, file!);
+    task = FirebaseApiRepository.uploadFile(destinationForImage, file!);
     uploadingPhotoNumber = index;
     setState(() {});
 
@@ -374,7 +666,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         child: CircleAvatar(
                           radius: 15,
                           child: Icon(
-                            Icons.close, color: Theme.of(context).primaryColor,),
+                            Icons.close, color: customSelectionColorOfApp,),
                           backgroundColor: Colors.white,
                         ),
                         alignment: Alignment.topRight,
@@ -419,7 +711,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(child: Icon(Icons.add,color: Theme.of(context).primaryColor==Colors.white?Theme.of(context).primaryColor:Colors.white,),radius: 15,backgroundColor: Theme.of(context).primaryColor,),
+                  CircleAvatar(child: Icon(Icons.add,color: customSelectionColorOfApp==Colors.white?customSelectionColorOfApp:Colors.white,),radius: 15,backgroundColor: customSelectionColorOfApp,),
                   SizedBox(height: 10,),
                   Text("Tap to add\nnew image",style: TextStyle(color: Colors.grey,)),
                 ],
@@ -434,7 +726,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         padding: EdgeInsets.all(20),
         height: 10,
         width: 10,
-        child: CircularProgressIndicator(color: Theme.of(context).primaryColor,),
+        child: CircularProgressIndicator(color: customSelectionColorOfApp,),
       ),
     );
   }

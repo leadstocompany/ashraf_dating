@@ -45,9 +45,10 @@ class _SignUpOrLoginScreenState extends State<SignUpOrLoginScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 36),
-        child: wantsToSignUp?SignUpWidgets():LoginWidgets(),
+
+        child: !wantsToSignUp?SignUpWidgets():LoginWidgets(),
       ),
     );
   }
@@ -169,203 +170,206 @@ class _SignUpOrLoginScreenState extends State<SignUpOrLoginScreen> {
 
   SignUpWidgets() {
     var size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: size.height*0.1,),
-        ReusableWidgets().FluidHeaderText("Create an account",context),
-        ReusableWidgets().FluidTextField("Email Id", "Enter your email", context, emailTextEditingController,false,true,null,false),
-        ReusableWidgets().FluidTextField("Password", "Enter your password", context, passwordTextEditingController,obscurePassword,true,(){
-          obscurePassword = !obscurePassword;
-          setState(() {});
-        },false),
-        ReusableWidgets().FluidButton("Sign Up", () async {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 36),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: size.height*0.1,),
+          ReusableWidgets().FluidHeaderText("Create an account",context),
+          ReusableWidgets().FluidTextField("Email Id", "Enter your email", context, emailTextEditingController,false,true,null,false),
+          ReusableWidgets().FluidTextField("Password", "Enter your password", context, passwordTextEditingController,obscurePassword,true,(){
+            obscurePassword = !obscurePassword;
+            setState(() {});
+          },false),
+          ReusableWidgets().FluidButton("Sign Up", () async {
 
-          Get.to(MobileAuthScreen());
+            Get.to(MobileAuthScreen());
 
 
 
 
 
-          /*if(emailTextEditingController.text.isNotEmpty){
-            emailErrorText = null;
-            if(passwordTextEditingController.text.isNotEmpty){
+            /*if(emailTextEditingController.text.isNotEmpty){
               emailErrorText = null;
-              passwordErrorText =null;
-              ProgressDialog.show(context, "Signing You\nUp");
-              String result = await _signUp();
-              ProgressDialog.hide();
-              if(result=='success'){
-                prefs?.setBool("registered",true);
-                Get.to(CompleteRegistration1Screen());
+              if(passwordTextEditingController.text.isNotEmpty){
+                emailErrorText = null;
+                passwordErrorText =null;
+                ProgressDialog.show(context, "Signing You\nUp");
+                String result = await _signUp();
+                ProgressDialog.hide();
+                if(result=='success'){
+                  prefs?.setBool("registered",true);
+                  Get.to(CompleteRegistration1Screen());
+                }
+                if (result != 'success') {
+                  Get.snackbar(
+                      result,"",
+                      snackPosition: SnackPosition.BOTTOM
+                  );
+                }
               }
-              if (result != 'success') {
-                Get.snackbar(
-                    result,"",
-                    snackPosition: SnackPosition.BOTTOM
-                );
+              else{
+                passwordErrorText = "Password cannot be blank";
               }
             }
             else{
-              passwordErrorText = "Password cannot be blank";
-            }
-          }
-          else{
-            emailErrorText = "Email cannot be blank";
-          }*/
-        }, context),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(color:Get.isDarkMode?Colors.white: Colors.black,height: 1,width: size.width*0.25,),
-            Text("  or continue with  "),
-            Container(color: Get.isDarkMode?Colors.white: Colors.black,height: 1,width: size.width*0.25,),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FaceBookBtn(),
-            SizedBox(width: 10,),
-            GoogleBtn(),
-            SizedBox(width: 10,),
-            AppleBtn(),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Already have an account ?"),
-            InkWell(
-                onTap: (){
-                  wantsToSignUp=!wantsToSignUp;
-                  setState(() {
+              emailErrorText = "Email cannot be blank";
+            }*/
+          }, context),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(color:Get.isDarkMode?Colors.white: Colors.black,height: 1,width: size.width*0.25,),
+              Text("  or continue with  "),
+              Container(color: Get.isDarkMode?Colors.white: Colors.black,height: 1,width: size.width*0.25,),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FaceBookBtn(),
+              SizedBox(width: 10,),
+              GoogleBtn(),
+              SizedBox(width: 10,),
+              AppleBtn(),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Already have an account ?"),
+              InkWell(
+                  onTap: (){
+                    wantsToSignUp=!wantsToSignUp;
+                    setState(() {
 
-                  });
-                },
-                child: Text(" Log in",style: TextStyle(color: Theme.of(context).primaryColor),)),
-          ],
-        ),
-        Column(
-          children: [
-            Text("By signing up, you agree to Photo’s"),
-            SizedBox(width: 5,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Terms of Service",style: TextStyle(decoration: TextDecoration.underline,),),
-                Text(" and "),
-                Text("Privacy Policy.",style: TextStyle(decoration: TextDecoration.underline,),),
-              ],
-            )
-          ],
-        ),
-      ],
+                    });
+                  },
+                  child: Text(" Log in",style: TextStyle(color: Theme.of(context).primaryColor),)),
+            ],
+          ),
+          Column(
+            children: [
+              Text("By signing up, you agree to Photo’s"),
+              SizedBox(width: 5,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Terms of Service",style: TextStyle(decoration: TextDecoration.underline,),),
+                  Text(" and "),
+                  Text("Privacy Policy.",style: TextStyle(decoration: TextDecoration.underline,),),
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 
   LoginWidgets() {
     var size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: size.height*0.1,),
-        ReusableWidgets().FluidHeaderText("Create an account",context),
-        ReusableWidgets().FluidTextField("Email Id", "Enter your email", context, emailTextEditingController,false,true,null,false),
-        ReusableWidgets().FluidTextField("Password", "Enter your password", context, passwordTextEditingController,obscurePassword,true,(){
-          obscurePassword = !obscurePassword;
-          setState(() {});
-        },false),
-        ReusableWidgets().FluidButton("Log In", () async {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 36),
+      decoration:  BoxDecoration(
+          gradient:  LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            stops: [
+              0.1,0.2,0.4,0.6
+            ],
+            colors: [
+              Color(0xffFFCFAD).withOpacity(0.6),
+              Color(0xff98D2EB).withOpacity(0.6),
+              Color(0xffFFADED).withOpacity(0.6),
+              Color(0xff9A69E1).withOpacity(0.6),
+            ],
+          )),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: size.height*0.1,),
+          ReusableWidgets().FluidHeaderText("Welcome Back",context),
+          ReusableWidgets().FluidTextField("Email Id", "Enter your email", context, emailTextEditingController,false,true,null,false),
+          ReusableWidgets().FluidTextField("Password", "Enter your password", context, passwordTextEditingController,obscurePassword,true,(){
+            obscurePassword = !obscurePassword;
+            setState(() {});
+          },false),
+          ReusableWidgets().FluidButton("Log In", () async {
 
-          Get.to(MobileAuthScreen());
-          return;
+            Get.to(MobileAuthScreen());
+            return;
 
-          if(emailTextEditingController.text.isNotEmpty){
-            emailErrorText = null;
-            if(passwordTextEditingController.text.isNotEmpty){
+            if(emailTextEditingController.text.isNotEmpty){
               emailErrorText = null;
-              passwordErrorText =null;
-              ProgressDialog.show(context, "Logging You\nIn");
-              String result = await _logInUser();
-              ProgressDialog.hide();
-              if(result=='success'){
-                prefs?.setBool("registered",true);
-                Get.to(CompleteRegistration1Screen());
+              if(passwordTextEditingController.text.isNotEmpty){
+                emailErrorText = null;
+                passwordErrorText =null;
+                ProgressDialog.show(context, "Logging You\nIn");
+                String result = await _logInUser();
+                ProgressDialog.hide();
+                if(result=='success'){
+                  prefs?.setBool("registered",true);
+                  Get.to(CompleteRegistration1Screen());
+                }
+                if (result != 'success') {
+                  Get.snackbar(
+                      result,
+                      '',
+                      snackPosition: SnackPosition.BOTTOM
+                  );
+                }
               }
-              if (result != 'success') {
-                Get.snackbar(
-                    result,
-                    '',
-                    snackPosition: SnackPosition.BOTTOM
-                );
+              else{
+                passwordErrorText = "Password cannot be blank";
               }
             }
             else{
-              passwordErrorText = "Password cannot be blank";
+              emailErrorText = "Email cannot be blank";
             }
-          }
-          else{
-            emailErrorText = "Email cannot be blank";
-          }
 
-        }, context),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(color:Get.isDarkMode?Colors.white: Colors.black,height: 1,width: size.width*0.25,),
-            Text("  or continue with  "),
-            Container(color: Get.isDarkMode?Colors.white: Colors.black,height: 1,width: size.width*0.25,),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FaceBookBtn(),
-            SizedBox(width: 10,),
-            GoogleBtn(),
-            SizedBox(width: 10,),
-            AppleBtn(),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Don't have an account ?"),
-            InkWell(
-                onTap: (){
+          }, context),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(color:Get.isDarkMode?Colors.white: Colors.black,height: 1,width: size.width*0.25,),
+              Text("  or continue with  "),
+              Container(color: Get.isDarkMode?Colors.white: Colors.black,height: 1,width: size.width*0.25,),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FaceBookBtn(),
+              SizedBox(width: 10,),
+              GoogleBtn(),
+              SizedBox(width: 10,),
+              AppleBtn(),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Don't have an account ?"),
+              InkWell(
+                  onTap: (){
 
-                  wantsToSignUp=!wantsToSignUp;
-                  setState(() {
+                    wantsToSignUp=!wantsToSignUp;
+                    setState(() {
 
-                  });
-                },
-                child: Text(" Sign Up",style: TextStyle(color: Theme.of(context).primaryColor),)),
-          ],
+                    });
+                  },
+                  child: Text(" Sign Up",style: TextStyle(color: Theme.of(context).primaryColor),)),
+            ],
 
 
-        ),
-        Column(
-          children: [
-            Text("By signing up, you agree to Photo’s"),
-            SizedBox(width: 5,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Terms of Service",style: TextStyle(decoration: TextDecoration.underline,),),
-                Text(" and "),
-                InkWell(
-                    onTap: (){
-                      Get.to(CompleteRegistration1Screen());
-                    },
-                    child: Text("Privacy Policy.",style: TextStyle(decoration: TextDecoration.underline,),)),
-              ],
-            )
-          ],
-        ),
-      ],
+          ),
+
+        ],
+      ),
     );
   }
 

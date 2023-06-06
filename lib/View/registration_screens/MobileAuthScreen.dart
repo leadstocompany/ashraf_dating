@@ -4,7 +4,7 @@ import 'package:country_codes/country_codes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluid_dating_app/Helper/AppServices.dart';
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
-import 'package:fluid_dating_app/Network/api_repository.dart';
+import 'package:fluid_dating_app/Network/api_repository_for_firebase.dart';
 import 'package:fluid_dating_app/View/WelcomeBackScreen.dart';
 import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration1Screen.dart';
 import 'package:flutter/foundation.dart';
@@ -341,34 +341,26 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
                         ),
                       ),*/
                               const SizedBox(
-                                height: 30.0,
+                                height: 10.0,
                               ),
                               GestureDetector(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top:
-                                      MediaQuery.of(context).size.height *
-                                          0.02),
-                                  child: Text(
-                                    disableResendOTPBtn
-                                        ? 'Check Your SMS Inbox ' +
-                                        phoneNumberTextEditingController
-                                            .text
-                                        : 'Send Again',
-                                    style: disableResendOTPBtn
-                                        ? GoogleFonts.raleway(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black45)
-                                        : GoogleFonts.raleway(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .headline6,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).primaryColor),
-                                  ),
+                                child: Text(
+                                  disableResendOTPBtn
+                                      ? "Resend Verification Code"
+                                      : 'Resend Verification Code',
+                                  style: disableResendOTPBtn
+                                      ? GoogleFonts.raleway(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .headline6,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey)
+                                      : GoogleFonts.raleway(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .headline6,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
                                 ),
                                 onTap: disableResendOTPBtn
                                     ? null
@@ -521,7 +513,7 @@ class _MobileAuthScreenState extends State<MobileAuthScreen> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'provider-already-linked') {
 
-        bool haveRegistered = await ApiRepository().checkIfAccountExsist(user!.uid.toString());
+        bool haveRegistered = await FirebaseApiRepository().checkIfAccountExsist(user!.uid.toString());
         if(haveRegistered){
           print('provider-already-linked');
           print('Hogaya Hai');

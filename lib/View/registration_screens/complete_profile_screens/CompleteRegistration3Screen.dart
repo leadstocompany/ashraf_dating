@@ -5,8 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluid_dating_app/Helper/app_helper.dart';
 import 'package:fluid_dating_app/Helper/reusable_widgets.dart';
-import 'package:fluid_dating_app/Network/api_repository.dart';
+import 'package:fluid_dating_app/Network/api_repository_for_firebase.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/EditProfileScreen.dart';
+import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/CompleteRegistration6Screen.dart';
+import 'package:fluid_dating_app/View/registration_screens/complete_profile_screens/FilterByScreenForRegistration.dart';
+import 'package:fluid_dating_app/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -15,6 +18,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
 import 'CompleteRegistration4Screen.dart';
+import 'CompleteRegistration5Screen.dart';
 
 class CompleteRegistration3Screen extends StatefulWidget {
   const CompleteRegistration3Screen({Key? key}) : super(key: key);
@@ -45,22 +49,22 @@ class _CompleteRegistration3ScreenState extends State<CompleteRegistration3Scree
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,iconTheme: IconThemeData(color: primaryColorOfApp),),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 36),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: size.height*0.06,),
-
+              SizedBox(height: size.height*0.02,),
               ReusableWidgets().FluidHeaderText("Add Your Photos",context),
               ReusableWidgets().FluidNoteText("Add multiple photos to get a higher number of daily matches.", context),
               SizedBox(height: size.height*0.01,),
               PhotoAlbumGrid(),
               ReusableWidgets().FluidButton("NEXT", (){
 
+                Get.to(CompleteRegistration5Screen(profileName: "profileName"));
 
-                Get.to(CompleteRegistration4Screen());
 
 
               }, context),
@@ -121,7 +125,7 @@ class _CompleteRegistration3ScreenState extends State<CompleteRegistration3Scree
     destinationForImage = id+'/$profileId/'+(uploadingPhotoNumber.toString()??"ERROR");
 
 
-    task = ApiRepository.uploadFile(destinationForImage, file!);
+    task = FirebaseApiRepository.uploadFile(destinationForImage, file!);
     uploadingPhotoNumber = index;
     setState(() {});
 

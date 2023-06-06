@@ -66,6 +66,8 @@ class _CompleteRegistration1ScreenState extends State<CompleteRegistration1Scree
   List<String> _selectedItems = [];
 
   void _showMultiSelect() async {
+
+    _selectedItems = [];
     // a list of selectable items
     // these items can be hard-coded or dynamically fetched from a database/API
     final List<String> items = [
@@ -78,25 +80,128 @@ class _CompleteRegistration1ScreenState extends State<CompleteRegistration1Scree
       'Indonesian'
     ];
 
-    final List<String>? results = await showDialog(
+
+// This function is triggered when a checkbox is checked or unchecked
+    void _itemChange(String itemValue, bool isSelected) {
+      setState(() {
+        if (isSelected) {
+          _selectedItems.add(itemValue);
+        } else {
+          _selectedItems.remove(itemValue);
+        }
+      });
+    }
+
+
+    final List<String>? results = await showModalBottomSheet(
+        isScrollControlled: true,
+
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(50.0),
+              topLeft: Radius.circular(50.0),
+            )),
+        context: context,
+        builder: (context) {
+
+          var size = MediaQuery.of(context).size;
+
+          return StatefulBuilder(
+            builder: (context,innerState) {
+              return Wrap(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                    child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Select Languages",
+                                style: GoogleFonts.raleway(
+                                    textStyle:
+                                    Theme.of(context).textTheme.titleLarge,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                            SingleChildScrollView(
+                              child: ListBody(
+                                children: items
+                                    .map((item) => CheckboxListTile(
+                                  activeColor: primaryColorOfApp,
+                                  value: _selectedItems.contains(item),
+                                  title: Text(item),
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  onChanged: (isChecked) {
+                                    if(isChecked!){
+                                      if(!_selectedItems.contains(item)){
+                                        _selectedItems.add(item);
+                                      }
+                                    }
+                                    else{
+                                      _selectedItems.remove(item);
+                                    }
+                                    innerState(() {
+
+                                    });
+                                  },
+                                ))
+                                    .toList(),
+                              ),
+                            ),
+                            SizedBox(height: 20,),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, _selectedItems);
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height: size.height * 0.05,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Save',
+                                    style: GoogleFonts.poppins(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20,)
+                          ],
+                        )),
+                  ),
+                ],
+              );
+            }
+          );
+        });
+
+    /*final List<String>? results = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return MultiSelect(items: items);
       },
-    );
+    );*/
 
     // Update UI
     if (results != null) {
       setState(() {
         _selectedItems = results;
         print(_selectedItems);
-        langaugeTextEditingController.clear();
-        results.forEach((element) {
+        //langaugeTextEditingController.clear();
+        /*results.forEach((element) {
           langaugeTextEditingController.text = element+","+langaugeTextEditingController.text;
         });
         if (langaugeTextEditingController.text != null && langaugeTextEditingController.text.length > 0) {
           langaugeTextEditingController.text = langaugeTextEditingController.text.substring(0, langaugeTextEditingController.text.length - 1);
-        }
+        }*/
       });
     }
   }
@@ -107,6 +212,7 @@ class _CompleteRegistration1ScreenState extends State<CompleteRegistration1Scree
     var size = MediaQuery.of(context).size;
 
 
+    langaugeTextEditingController.text = "Tap To Select Languages";
 
     return SafeArea(
       child: Scaffold(
@@ -118,13 +224,13 @@ class _CompleteRegistration1ScreenState extends State<CompleteRegistration1Scree
               children: [
                 SizedBox(height: size.height*0.1,),
                 ReusableWidgets().FluidHeaderText("Create your Profile",context),
-                SizedBox(height: size.height*0.1,),
+                SizedBox(height: size.height*0.05,),
                 ReusableWidgets().FluidTextField("Name", "Username...", context, nameTextEditingController,false,true,null,false),
                 SizedBox(height: size.height*0.025,),
                 GestureDetector(
                     onTap: (){
                       showModalBottomSheet(
-                          isScrollControlled: true,
+                          //isScrollControlled: true,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(50.0),
@@ -132,89 +238,103 @@ class _CompleteRegistration1ScreenState extends State<CompleteRegistration1Scree
                               )),
                           context: context,
                           builder: (context) {
-                            return Container(
-                              height: size.height * 0.6,
-                              padding: EdgeInsets.only(top: 40, left: 20, right: 20),
-                              child: Center(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text("Start Date",
-                                          style: GoogleFonts.raleway(
-                                              textStyle:
-                                              Theme.of(context).textTheme.titleLarge,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black)),
-                                      SfDateRangePicker(
-                                        selectionMode: DateRangePickerSelectionMode.single,
-                                        view: DateRangePickerView.decade,
-                                        rangeSelectionColor:
-                                        Theme.of(context).primaryColor.withOpacity(0.3),
-                                        startRangeSelectionColor: Theme.of(context).primaryColor,
-                                        endRangeSelectionColor: Theme.of(context).primaryColor,
-                                        selectionColor: Theme.of(context).primaryColor,
-                                        maxDate: DateTime.now(),
-                                        /*maxDate: DateTime(DateTime.now().year - 12,
-                                        DateTime.now().month, DateTime.now().day),
-                                        minDate: DateTime(DateTime.now().year - 150,
-                                        DateTime.now().month, DateTime.now().day),*/
-                                        todayHighlightColor: Colors.black,
-                                        headerHeight: 50,
-                                        showNavigationArrow: true,
-                                        onSelectionChanged: (ob) {
-                                          print(ob.value);
-                                          String formattedDate =
-                                          DateFormat('yyyy-MM-dd').format(ob.value);
-                                          a = Jiffy(formattedDate).yMMMMd;
-                                        },
-                                        onSubmit: (ob) {
-                                          print(ob.runtimeType);
-                                        },
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          dobTextEditingController.text = a;
-                                          bdayErrorText = null;
-                                          Navigator.pop(context);
-                                          setState(() {});
-                                        },
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width * 0.8,
-                                          height: size.height * 0.09,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context).primaryColor,
-
-                                            borderRadius: BorderRadius.circular(15.0),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              'Save',
-                                              style: GoogleFonts.poppins(
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium,
+                            return Wrap(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                                  child: Center(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text("Start Date",
+                                              style: GoogleFonts.raleway(
+                                                  textStyle:
+                                                  Theme.of(context).textTheme.titleLarge,
                                                   fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
+                                                  color: Colors.black)),
+                                          SfDateRangePicker(
+                                            selectionMode: DateRangePickerSelectionMode.single,
+                                            view: DateRangePickerView.decade,
+                                            rangeSelectionColor:
+                                            Theme.of(context).primaryColor.withOpacity(0.3),
+                                            startRangeSelectionColor: Theme.of(context).primaryColor,
+                                            endRangeSelectionColor: Theme.of(context).primaryColor,
+                                            selectionColor: Theme.of(context).primaryColor,
+                                            maxDate: DateTime.now(),
+                                            /*maxDate: DateTime(DateTime.now().year - 12,
+                                            DateTime.now().month, DateTime.now().day),
+                                            minDate: DateTime(DateTime.now().year - 150,
+                                            DateTime.now().month, DateTime.now().day),*/
+                                            todayHighlightColor: Colors.black,
+                                            headerHeight: 50,
+                                            showNavigationArrow: true,
+                                            onSelectionChanged: (ob) {
+                                              print(ob.value);
+                                              String formattedDate =
+                                              DateFormat('yyyy-MM-dd').format(ob.value);
+                                              a = Jiffy(formattedDate).yMMMMd;
+                                            },
+                                            onSubmit: (ob) {
+                                              print(ob.runtimeType);
+                                            },
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              dobTextEditingController.text = a;
+                                              bdayErrorText = null;
+                                              Navigator.pop(context);
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width * 0.8,
+                                              height: size.height * 0.05,
+                                              decoration: BoxDecoration(
+                                                color: Theme.of(context).primaryColor,
+
+                                                borderRadius: BorderRadius.circular(15.0),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  'Save',
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  )),
+                                          SizedBox(height: 20,)
+                                        ],
+                                      )),
+                                ),
+                              ],
                             );
                           });
                     },
                     child: ReusableWidgets().FluidTextField("Date of Birth", "DD/MM/YYYY", context, dobTextEditingController,false,true,null,true,Icon(Icons.date_range,color: primaryColorOfApp,))),
                 SizedBox(height: size.height*0.025,),
-                /*Wrap(
+                Text("Your Langugages"),
+                Visibility(
+                    visible: _selectedItems.length>0,
+                    child: SizedBox(height: size.height*0.01,)),
+                Wrap(
                   children: _selectedItems
-                      .map((e) => Chip(
+                      .map((e) => Container(
+                    padding: EdgeInsets.only(right: 2),
+                        child: Chip(
                     backgroundColor: primaryColorOfApp,
                     label: Text(e,style: TextStyle(color: Colors.white,fontSize: 12),),
-                  ))
+                  ),
+                      ))
                       .toList(),
-                ),*/
-                ReusableWidgets().FluidTextField("Language", "Languages..", context, langaugeTextEditingController,false,false,null,false,null,null,(){_showMultiSelect();}),
+                ),
+                Visibility(
+                    visible: _selectedItems.length>0,
+                    child: SizedBox(height: size.height*0.025,)),
+                ReusableWidgets().FluidTextField("", "", context, langaugeTextEditingController,false,false,null,false,Icon(Icons.add_circle_outline,color: primaryColorOfApp,),null,(){_showMultiSelect();},true),
                 // display selected items
 
                 SizedBox(height: size.height*0.025,),
@@ -269,7 +389,7 @@ class _CompleteRegistration1ScreenState extends State<CompleteRegistration1Scree
                 ReusableWidgets().FluidButton("NEXT", (){
                       Get.to(CompleteRegistration2Screen());
                     }, context),
-
+                SizedBox(height: size.height*0.05,),
               ],
             ),
           ),

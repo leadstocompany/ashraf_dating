@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class ApiRepository{
+class FirebaseApiRepository{
   checkIfAccountExsist(String string) {}
 
   static UploadTask? uploadFile(String destination, File file) {
@@ -41,7 +41,7 @@ class ApiRepository{
       String destinationForImage = id.toString()+"/"+destination;
 
 
-      UploadTask? task = ApiRepository.uploadFile(destinationForImage, file!);
+      UploadTask? task = FirebaseApiRepository.uploadFile(destinationForImage, file!);
 
 
 

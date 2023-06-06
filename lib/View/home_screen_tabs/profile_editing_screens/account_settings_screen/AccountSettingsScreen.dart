@@ -1,6 +1,7 @@
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/ChangePasswordScreen.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/CommunityGuidelinesScreen.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/PrivacyPolicyScreen.dart';
+import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/ResourcesScreen.dart';
 import 'package:fluid_dating_app/View/home_screen_tabs/profile_editing_screens/account_settings_screen/SafetyTipsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -106,6 +107,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               ),
               Divider(),
               ListTile(
+                onTap: (){
+                  Get.to(ResourcesScreen());
+                },
                 title: Text("Resources"),
               ),
               Divider(),

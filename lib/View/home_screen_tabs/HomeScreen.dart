@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:appinio_swiper/appinio_swiper.dart';
+import 'package:fluid_dating_app/View/CloseUpProfileView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTitleValueNotifier{
@@ -457,145 +459,150 @@ class _ProfileCardState extends State<ProfileCard> {
 
     String emoji = "😀";
 
-    return SingleChildScrollView(
-      child: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height*0.8,
-              child: Stack(
-                children: [
+    return InkWell(
+      onTap: (){
+        Get.to(CloseUpProfileView());
+      },
+      child: SingleChildScrollView(
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height*0.8,
+                child: Stack(
+                  children: [
 
-                  Container(
-                    foregroundDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        colors: [Colors.black, Colors.transparent, Colors.transparent, Colors.black],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        stops: [0, 0.1, 0.8, 1],
+                    Container(
+                      foregroundDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          colors: [Colors.black, Colors.transparent, Colors.transparent, Colors.black],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0, 0.1, 0.8, 1],
+                        ),
                       ),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(widget.subProfileModal?.profileImage??"https://flxt.tmsimg.com/assets/283805_v9_ba.jpg"),
+                            fit: BoxFit.cover),
+                        borderRadius: BorderRadius.circular(10),
+                        color: CupertinoColors.black,
+                        boxShadow: [
+                          BoxShadow(
+                            color: CupertinoColors.systemGrey.withOpacity(0.2),
+                            spreadRadius: 3,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3),
+                          )
+                        ],
+                      ),
+                      alignment: Alignment.bottomCenter,
                     ),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(widget.subProfileModal?.profileImage??"https://flxt.tmsimg.com/assets/283805_v9_ba.jpg"),
-                          fit: BoxFit.cover),
-                      borderRadius: BorderRadius.circular(10),
-                      color: CupertinoColors.black,
-                      boxShadow: [
-                        BoxShadow(
-                          color: CupertinoColors.systemGrey.withOpacity(0.2),
-                          spreadRadius: 3,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3),
-                        )
-                      ],
-                    ),
-                    alignment: Alignment.bottomCenter,
-                  ),
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.subProfileModal?.name??"Error",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                    Container(
+                      alignment: Alignment.bottomLeft,
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.subProfileModal?.name??"Error",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          child: Flexible(
-                            child: Text(
-                              (widget.subProfileModal?.gender.toString()??""+","+(widget.subProfileModal?.age.toString()??"")),
-                              overflow: TextOverflow.visible,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            child: Flexible(
+                              child: Text(
+                                (widget.subProfileModal?.gender.toString()??""+","+(widget.subProfileModal?.age.toString()??"")),
+                                overflow: TextOverflow.visible,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        /*Text(
-                              widget.subProfileModal.profileType!,
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
-                              ),
-                            )*/
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0,top: 8.0),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 10,),
-                            Icon(Icons.verified_user_rounded,size:40,color: Theme.of(context).primaryColor,),
-                            SizedBox(height: 10,),
-                            IconButton(
-                              onPressed: (){
-                                _showActionSheet(context,widget.subProfileModal?.name??"");
-                              },
-                              icon:Icon(Icons.more_horiz,color: Colors.white),)
-                          ],
-                        ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          /*Text(
+                                widget.subProfileModal.profileType!,
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                ),
+                              )*/
+                        ],
                       ),
                     ),
-                  )
+                    Container(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0,top: 8.0),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 10,),
+                              Icon(Icons.verified_user_rounded,size:40,color: Theme.of(context).primaryColor,),
+                              SizedBox(height: 10,),
+                              IconButton(
+                                onPressed: (){
+                                  _showActionSheet(context,widget.subProfileModal?.name??"");
+                                },
+                                icon:Icon(Icons.more_horiz,color: Colors.white),)
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
 
-                ],
-              ),
-            ),
-
-            /*Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text("Experience",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                  ],
                 ),
+              ),
 
-                Timeline(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Intern Writer",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                        Text("Dharavi Daily Samachar",style: TextStyle(fontSize: 16),),
-                        Text("3 Months",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Sales & Counter Staff",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                        Text("Adult Sex Toy",style: TextStyle(fontSize: 16),),
-                        Text("Currently Works Here",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                      ],
-                    ),
+              /*Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text("Experience",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                  ),
 
-                  ],
-                  indicators: <Widget>[
-                    CircleAvatar(backgroundColor:Colors.black,child: Text("1",style: TextStyle(color: Colors.white),),),
-                    CircleAvatar(backgroundColor:Colors.black,child: Text("2",style: TextStyle(color: Colors.white),),),
+                  Timeline(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Intern Writer",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                          Text("Dharavi Daily Samachar",style: TextStyle(fontSize: 16),),
+                          Text("3 Months",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Sales & Counter Staff",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                          Text("Adult Sex Toy",style: TextStyle(fontSize: 16),),
+                          Text("Currently Works Here",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                        ],
+                      ),
 
-                  ],
-                ),*/
-          ],
+                    ],
+                    indicators: <Widget>[
+                      CircleAvatar(backgroundColor:Colors.black,child: Text("1",style: TextStyle(color: Colors.white),),),
+                      CircleAvatar(backgroundColor:Colors.black,child: Text("2",style: TextStyle(color: Colors.white),),),
+
+                    ],
+                  ),*/
+            ],
+          ),
         ),
       ),
     );
